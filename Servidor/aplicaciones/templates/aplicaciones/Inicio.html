@@ -1,11 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{%block contenido%}
+
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primera Pagina</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio sesión</title>
+
+
 </head>
-<body>
-    <h1>CREE EL PROYECTO OWO!!!!</h1>
-</body>
-</html>
+
+<main style="margin: 120px;">
+    <div class="d-flex justify-content-center align-items-center mh-100 "  >
+        <div class="p-5" style="width: 35rem;border-radius: 50px;background-color: rgba(38, 127, 98, 0.66);">
+            <div style="height: 80px;" class="d-flex justify-content-center">
+                <img src="{% static 'aplicaciones/img/login-icon.svg' %}" alt="login-icon" style="height: 7rem" />
+            </div>
+            <div style="font-weight: bolder;" class="mt-4 text-center fs-1">Iniciar sesión</div>
+
+            <div class="input-group mt-4">
+                <div class="input-group-text" style="background:#db6c82;">
+                    <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon"
+                        style="height:1.5rem;" />
+                </div>
+                <input style="font-size:11px;" class="form-control bg-light" type="text" placeholder="Correo"
+                    id="username" name="username" />
+            </div>
+            <div class="input-group mt-1">
+                <div class="input-group-text" style="background: #db6c82;">
+                    <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon"
+                        style="height: 1.5rem" />
+                </div>
+                <input style="font-size:11px;" class="form-control bg-light" type="password" placeholder="Contraseña"
+                    id="password" name="password" />
+            </div>
+            <div class="d-flex justify-content-around mt-4">
+                <div class="d-flex align-items-center gap-1">
+                    <input style="height:1.5rem; width: 1.5rem;" class="form-check-input" type="checkbox" />
+                    <div class="pt-2" style="font-size: 1.2rem">Recuerdame</div>
+                </div>
+                <div class="pt-1">
+                </div>
+
+            </div>
+            <div>
+                <button onclick="login()" style="background: #6d92ac; font-size: 14px;"
+                    class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Ingresar</button>
+            </div>
+            <div class="d-flex gap-1 justify-content-center mt-3">
+                <div style="font-size: 1.2rem">No tienes una cuenta?</div>
+                <a href="/Inicio.html" class="text-decoration-none fw-semibold" style="font-size: 1.2rem; color: black;">Registrate
+                    aqui</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{%endblock%}
