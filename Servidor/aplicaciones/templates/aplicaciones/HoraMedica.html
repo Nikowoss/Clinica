@@ -1,0 +1,41 @@
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{%block contenido%}
+
+
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buscar Hora</title>
+    <link rel="stylesheet" href="{% static 'aplicaciones/css/estilo.css' %}">
+
+</head>
+
+<main style="margin: 120px;">
+    <div class="d-flex justify-content-center align-items-center mh-100 ">
+        <div class="p-5" style="width: 35rem;border-radius: 50px;background-color: rgba(38, 127, 98, 0.66);">
+            <h1 style="margin-bottom: 20px;">Busqueda Hora Medica</h1>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Selecciona un centro</option>
+                <option value="1">DIRECCION 1</option>
+                <option value="2">DIRECCION 2</option>
+                <option value="3">DIRECCION 3</option>
+            </select>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                <option selected>Selecciona una especialidad</option>
+                <option value="1">ESPECIALIDAD 1</option>
+                <option value="2">ESPECIALIDAD 2</option>
+                <option value="3">ESPECIALIDAD 3</option>
+            </select>
+            <div>
+                <a href="{% url 'HoraDisponible' %}"><button style="background: #308aca; font-size: 14px;"
+                    class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Buscar Horas Disponibles</button></a> 
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{%endblock%}

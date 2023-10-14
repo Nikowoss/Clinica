@@ -6,4 +6,5 @@ urlpatterns = [
     path('', InicioPaciente,name="InicioPaciente"),
     path('CrearCuenta',CrearCuenta,name="CrearCuenta"),
     path('HoraMedica',HoraMedica,name="HoraMedica"),
+    path('HoraDisponible',HoraDisponible,name="HoraDisponible"),
 ]

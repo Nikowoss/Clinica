@@ -15,3 +15,5 @@ def InicioPaciente(request):
 def HoraMedica(request):
     return render(request,'aplicaciones/HoraMedica.html')
 
+def HoraDisponible(request):
+    return render(request,'aplicaciones/HoraDisponible.html')
