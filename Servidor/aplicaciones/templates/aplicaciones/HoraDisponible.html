@@ -7,9 +7,14 @@
     <title>Horas Disponibles</title>
 </head>
 <body>
-    <div id=""> 
-
+    <div> 
+        <form id="form" class="purchase-info">
+            <input type="search" id="search" placeholder="Ingrese año">
+            <button class="btn btn-primary">Buscar</button>
+        </form>
     </div>
-    <script src="{%static 'aplicaciones/js/APIferiados.js' %}" type="module"></script>
+    <section class="result box" id="result"></section>
+    </div>
+    <script type="text/javascript" src="{%static 'aplicaciones/js/APIferiados.js' %}"></script>
 </body>
 </html>
