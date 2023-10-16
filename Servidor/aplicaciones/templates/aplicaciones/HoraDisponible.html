@@ -1,20 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horas Disponibles</title>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+
 </head>
+
 <body>
-    <div> 
-        <form id="form" class="purchase-info">
-            <input type="search" id="search" placeholder="Ingrese año">
-            <button class="btn btn-primary">Buscar</button>
-        </form>
+    <div id="calendar" style="height: 500px;width: 600px;">
+
     </div>
-    <section class="result box" id="result"></section>
-    </div>
-    <script type="text/javascript" src="{%static 'aplicaciones/js/APIferiados.js' %}"></script>
+    <script src="{%static 'aplicaciones/js/APIferiados.js' %}" type="module"></script>
+    <form id="eventForm">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required>
+        
+        <label for="start">Fecha de inicio:</label>
+        <input type="date" id="start" name="start" required>
+        
+        <label for="end">Fecha de finalización:</label>
+        <input type="date" id="end" name="end">
+        
+        <button type="submit">Agregar Evento</button>
+    </form>
+    
 </body>
+
 </html>

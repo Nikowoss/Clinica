@@ -1,36 +1,56 @@
-const form = document.getElementById('form')
-const search = document.getElementById('search')
-const result = document.getElementById('result')
+//API
+function fetchFeriados(callbackName) {
+    var script = document.createElement('script');
+    var callbackFunctionName = 'jsonpCallback' + Math.floor(Math.random() * 100000);
 
-/// api URL ///
-const apiURL = 'https://apis.digital.gob.cl/fl/feriados';
+    window[callbackFunctionName] = function (data) {
+        var calendarData = data.map(function (feriado) {
+            return {
+                title: feriado.nombre,
+                start: feriado.fecha
+            };
+        });
 
+        $('#calendar').fullCalendar({
+            events: calendarData
+        });
 
-///añadir el evento al form
+        delete window[callbackFunctionName];
+        document.body.removeChild(script);
+    };
 
-form.addEventListener('submit', e=> {
-    e.preventDefault();
-    searchValue = search.value.trim()
-
-    if(!searchValue){
-        console.log("Ingrese año")
-    }
-    else{ 
-        searchAño(searchValue)
-    }
-})
-
-
-//buscar por año 
-async function searchAño(){
-    const searchResult = await fetch(`${apiURL}/${searchValue}`)
-    const data = await searchResult.json();
-
-    // console.log(finaldata)
-    showData(data)
+    var apiUrl = 'https://apis.digital.gob.cl/fl/feriados/2023?callback=' + callbackFunctionName;
+    script.src = apiUrl;
+    document.body.appendChild(script);
 }
 
-
-
-
+var callbackName = 'miCallback';
+fetchFeriados(callbackName);
+// API LISTA
+// AGREGAR EVENTOS AL CALENDARIO
+$(document).ready(function() {
+    var calendar = $('#calendar');
+    
+    $('#eventForm').submit(function(e) {
+        e.preventDefault();
+        
+        var title = $('#title').val();
+        var start = $('#start').val();
+        var end = $('#end').val();
+        
+        if (title && start) {
+            var newEvent = {
+                title: title,
+                start: start
+            };
+            
+            if (end) {
+                newEvent.end = end;
+            }
+            
+            calendar.fullCalendar('renderEvent', newEvent, true);
+        }
+    });
+});
+//AGREGAR EVENTOS AL CALENDARIO
 
