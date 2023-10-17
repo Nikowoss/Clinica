@@ -15,20 +15,34 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    <style>
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: #e3f2fd;
+            color: #333;
+            padding: 10px 0;
+        }
+    </style>
 
 
 </head>
 
 <body >
-
+    <header style="height: 13vh; background-color: #e3f2fd; ">
+        <nav class="navbar">
+            <a href="{% url 'InicioPaciente'%}" class="" style="text-decoration: none;"><img
+                    src="{% static 'aplicaciones/img/icon-hospital.png' %}" height="80px" 
+                    style="float: left; font-size: x-large;" alt="Logo" ></a>
+                </nav>
+                </header>
     {% block contenido%}
 
 
     {% endblock contenido%}
-
-
-
-
 
     <footer>
 

@@ -1,55 +1,44 @@
 {% extends 'aplicaciones/base.html' %}
 {% load static %}
-{%block contenido%}
-
-
-
+{% block contenido %}
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio sesión</title>
-
-
 </head>
 
 <main style="margin: 120px;">
-
-    <div class="d-flex justify-content-center align-items-center mh-100 "  >
-        <div class="p-5" style="width: 35rem;border-radius: 50px;background-color: rgba(38, 127, 98, 0.66);">
-            <div style="height: 80px;" class="d-flex justify-content-center">
-                <img src="{% static 'aplicaciones/img/login-icon.svg' %}" alt="login-icon" style="height: 7rem" />
+    <div class="d-flex justify-content-center align-items-center mh-100">
+        <div class="p-5" style="width: 55rem; border-radius: 50px; background-color: #87CEEB;">
+            <div style="height: 150px;" class="d-flex justify-content-center">
+                <img src="{% static 'aplicaciones/img/login-icon.svg' %}" alt="login-icon" style="height: 15rem" />
             </div>
-            <div style="font-weight: bolder;" class="mt-4 text-center fs-1">Iniciar sesión</div>
+            <div style="font-weight: bolder; font-size: 2rem;" class="mt-4 text-center fs-1">Iniciar sesión</div>
 
             <div class="input-group mt-4">
-                <div class="input-group-text" style="background:#db6c82;">
-                    <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon"
-                        style="height:1.5rem;" />
+                <div class="input-group-text" style="background: navy;">
+                    <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon" style="height: 2.5rem;" />
                 </div>
-                <input style="font-size:11px;" class="form-control bg-light" type="text" placeholder="RUT"
-                    id="username" name="username" />
+                <input style="font-size: 1.8rem;" class="form-control bg-light" type="text" placeholder="RUT" id="username" name="username" />
             </div>
             <div class="input-group mt-1">
-                <div class="input-group-text" style="background: #db6c82;">
-                    <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon"
-                        style="height: 1.5rem" />
+                <div class="input-group-text" style="background: navy;">
+                    <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon" style="height: 2.5rem" />
                 </div>
-                <input style="font-size:11px;" class="form-control bg-light" type="password" placeholder="Contraseña"
-                    id="password" name="password" />
+                <input style="font-size: 1.8rem;" class="form-control bg-light" type="password" placeholder="Contraseña" id="password" name="password" />
             </div>
             
             <div>
-                <a href="{% url 'InicioPaciente' %}"><button style="background: #308aca; font-size: 14px;"
-                    class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Ingresar</button></a> 
+                <a href="{% url 'InicioPaciente' %}">
+                    <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Ingresar</button>
+                </a>
             </div>
             <div class="d-flex gap-1 justify-content-center mt-3">
-                <div style="font-size: 1.2rem">No tienes una cuenta?</div>
-                <a href="{% url 'CrearCuenta' %}" class="text-decoration-none fw-semibold" style="font-size: 1.2rem; color: black;">Registrate
-                    aqui</a>
+                <div style="font-size: 2rem">No tienes una cuenta?</div>
+                <a href="{% url 'CrearCuenta' %}" class="text-decoration-none fw-semibold" style="font-size: 2rem; color: black;">Registrate aquí</a>
             </div>
         </div>
     </div>
 </main>
-
-{%endblock%}
+{% endblock %}

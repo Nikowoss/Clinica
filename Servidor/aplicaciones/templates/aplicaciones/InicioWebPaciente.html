@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -24,21 +26,29 @@
 </head>
 
 <body>
-    <header style="height: 10vh; background-color: #e3f2fd;">
+    <header style="height: 13vh; background-color: #e3f2fd;">
         <nav class="navbar">
             <a href="{% url 'InicioPaciente'%}" class="" style="text-decoration: none;"><img
-                    src="{% static 'aplicaciones/img/icon-hos.png' %}" height="60px"
-                    style="  padding-right: 20px; font-size: x-large;" alt="Logo"></a>
+                    src="{% static 'aplicaciones/img/icon-hospital.png' %}" height="80px" style=" font-size: x-large;"
+                    alt="Logo"></a>
 
-            <div style="display: flex;">
-                <a style="font-size: medium;text-decoration: none; justify-content: flex-start;"
-                    href="{% url 'InicioSesion' %}" class=" btn btn-primary">Iniciar Sesion</a>
+            <div style="display: flex ">
+                <h3 style="font-size: medium; text-decoration: none;color: darkblue;font-weight: bolder;">Teléfono</h3>
+                <h3><br><i style="margin-left: -60px; font-size: large; color: darkblue;" class="fa fa-phone"></i> 600
+                    600 600</h3>
             </div>
 
             <div style="display: flex;">
-                <a style="font-size: medium;text-decoration: none;" href="{% url 'HoraMedica' %}"
-                    class=" btn btn-primary">Registrar Hora Medica</a>
+                <a style="font-size: medium; text-decoration: none; justify-content: flex-start; background-color: navy; border-color: navy; color: white;"
+                    href="{% url 'InicioSesion' %}" class="btn btn-primary">Iniciar Sesion</a>
             </div>
+
+            <div style="display: flex;">
+                <a style="margin-left: -200px; font-size: medium; text-decoration: none; background-color: darkblue; 
+                border-color: darkblue; color: white;" href="{% url 'HoraMedica' %}" class="btn btn-primary">Registrar
+                    Hora Médica</a>
+            </div>
+
         </nav>
     </header>
     <div>
@@ -47,13 +57,13 @@
             <div style="margin-top: 5px;" id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="{% static 'aplicaciones/img/1.png' %}" class="d-block w-100" alt="...">
+                        <img src="{% static 'aplicaciones/img/1.1.png' %}" class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="{% static 'aplicaciones/img/3.png' %}" class="d-block w-100" alt="...">
+                        <img src="{% static 'aplicaciones/img/2.1.jpg' %}" class="d-block w-100" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="{% static 'aplicaciones/img/4.png' %}" class="d-block w-100" alt="...">
+                        <img src="{% static 'aplicaciones/img/3.1.png' %}" class="d-block w-100" alt="...">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -69,36 +79,60 @@
             </div>
         </div>
     </div>
-    <div class="row m-5 p-2">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body" style="background-color: #e3f2fd;">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-">
+                <img src="{% static 'aplicaciones/img/profesionales.png' %}" height="80px">
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body" style="background-color: #e3f2fd;">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+        <br>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-3">
+                <ul class="list-unstyled text-primary" style="font-size: x-large; text-align: left;">
+                    <li>Traumatología</li>
+                    <li>Ginecología y Obstetricia</li>
+                    <li>Medicina General</li>
+                </ul>
             </div>
-        </div>
-    </div>
-    <div class="m-5 p-2">
-        <div class="card text-center">
-            <div class="card-header">
-                Agregar weas aqui
+            <div class="col-3">
+                <ul class="list-unstyled text-primary" style="font-size: x-large; text-align: left;">
+                    <li>Pediatría</li>
+                    <li>Otorrinolaringología</li>
+                    <li>Neurología</li>
+                </ul>
             </div>
-            <div class="card-body" style="background-color: #e3f2fd;">
-                <h5 class="card-title">Agregar weas aqui</h5>
-                <p class="card-text">Agregar weas aqui</p>
-                <a href="#" class="btn btn-primary">Agregar weas aqui</a>
+            <div class="col-3 ">
+                <ul class="list-unstyled text-primary" style="font-size: x-large; text-align: left;">
+                    <li>Oftalmología</li>
+                    <li>Cardiología</li>
+                    <li>Traumatología Infantil</li>
+                </ul>
             </div>
         </div>
     </div>
 </body>
+
+<style>
+    footer {
+        position: absolute;
+        bottom: 5;
+        width: 100%;
+        text-align: center;
+        background-color: #e3f2fd;
+        color: #333;
+        padding: 10px 0;
+    }
+
+    .content {
+        flex: 5;
+    }
+</style>
+<footer class="content" style="margin-top: 100px; text-align: center; justify-content: end; ">
+
+    Copyright © 2023 Clinica por 'LosCabros'
+
+</footer>
+
+
+</html>
