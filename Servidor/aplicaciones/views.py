@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import requests
-from .forms import CrearPaciente
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -20,6 +20,11 @@ def HoraMedica(request):
 def HoraDisponible(request):
     return render(request,'aplicaciones/HoraDisponible.html')
 
+def CrearCuenta(request):
+    return render(request,'aplicaciones/CrearCuenta.html')
+def vistaMedico(request):
+    return render(request, 'aplicaciones/vistaMedico.html')
+
 def verPacientes(request):
    url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
 
@@ -31,31 +36,26 @@ def verPacientes(request):
        return render(request, 'aplicaciones/probandoapirest.html', {'data': data})
    else:
        return render(request, 'error.html')
-   
-def crearPaciente(request):
-    if request.method == 'POST':
-        form = CrearPaciente(request.POST)
-        if form.is_valid():
-            data = {
-                'rutPaciente': form.cleaned_data['rutPaciente'],
-                'nomPaciente': form.cleaned_data['nomPaciente'],
-                'apePaciente': form.cleaned_data['apePaciente'],
-                'correo': form.cleaned_data['correo'],
-                'contraPaciente': form.cleaned_data['contraPaciente'],
-                'fechaNacimiento': form.cleaned_data['fechaNacimiento']
-            }
 
-            url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/add'
+def enviar_cliente_a_api(request):
+    # Datos del cliente que deseas enviar
+    cliente_data = {
+        'rutPaciente': '12345',
+        'nomPaciente': 'John',
+        'apePaciente': 'Doe',
+        'correo': 'john@example.com',
+        'contraPaciente': 'contrasena',
+        'fechaNacimiento': '2000-01-01'
+    }
 
-            response = requests.post(url_api_replit, json=data)
+    # URL de la API Flask
+    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/add'  # Reemplaza con la URL real de tu API
 
-            if response.status_code == 201:
-                # La hora médica se creó con éxito
-                return render(request, 'aplicaciones/InicioSesion.html')
-            else:
-                # Manejar el error de creación de hora médica
-                return render(request, 'error.html')
+    # Realiza una solicitud POST a la API Flask
+    response = requests.post(api_url, json=cliente_data)
+
+    # Verifica si la solicitud fue exitosa
+    if response.status_code == 200:
+        return HttpResponse("Cliente enviado con éxito a la API Flask")
     else:
-        form = CrearPaciente()
-
-    return render(request, 'aplicaciones/CrearCuenta', {'form': form})
+        return HttpResponse("Error al enviar el cliente a la API Flask", status=500)
