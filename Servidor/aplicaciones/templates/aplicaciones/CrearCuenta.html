@@ -1,31 +1,62 @@
-<!DOCTYPE html>
-<html>
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{%block contenido%}
+
+
+
 <head>
-    <title>Formulario para Agregar Paciente</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="{% static 'aplicaciones/css/estilo.css' %}">
+
 </head>
-<body>
-    <h1>Formulario para Agregar Paciente</h1>
-    <form action="{% url 'CrearCuenta' %}" method="post"> <!-- Ajusta la acción del formulario a la URL correcta -->
-        {% csrf_token %}  <!-- Agrega el token CSRF para proteger el formulario -->
-        <label for="rutPaciente">RUT del Paciente:</label>
-        <input type="text" id="rutPaciente" name="rutPaciente" required><br><br>
 
-        <label for="nomPaciente">Nombre del Paciente:</label>
-        <input type="text" id="nomPaciente" name="nomPaciente" required><br><br>
+<main style="margin: 20px;">
 
-        <label for="apePaciente">Apellido del Paciente:</label>
-        <input type="text" id="apePaciente" name="apePaciente" required><br><br>
+    <div class="d-flex justify-content-center align-items-center mh-100 ">
+        <div class="p-5" style="width: 60rem;border-radius: 50px;background-color: #87CEEB;">
+            <div style="font-weight: bolder;" class="mt-4 text-center fs-1">Registro</div>
 
-        <label for="correo">Correo del Paciente:</label>
-        <input type="email" id="correo" name="correo" required><br><br>
+            <div class="input-group mt-4">
+                <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Rut" id="Rut" name="Rut" />
+            </div>
 
-        <label for="contraPaciente">Contraseña del Paciente:</label>
-        <input type="password" id="contraPaciente" name="contraPaciente" required><br><br>
+            <div class="input-group mt-4">
+                <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Nombre" id="Nombre" name="Nombre" />
+            </div>
 
-        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required><br><br>
+            <div class="input-group mt-4">
+                <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Apellido" id="Apellido" name="Apellido" />
+            </div>
 
-        <input type="submit" value="Agregar Paciente">
-    </form>
-</body>
-</html>
+            <div class="input-group mt-4">
+                <input style="font-size:15px;" class="form-control bg-light" type="email" placeholder="Correo" id="Correo" name="Correo" />
+            </div>
+            <div class="input-group mt-4">
+                <input style="font-size:15px;" class="form-control bg-light" type="password" placeholder="Contraseña"
+                    id="Contraseña" name="Contraseña" />
+            </div>
+
+            <div class="d-flex align-items-center gap-1 mt-4">
+                <input style="height:1.5rem; width: 15px;" class="form-check-input" type="checkbox" />
+                <div class="pt-1" style="font-size: 15px">Acepto Terminos y Condiciones</div>
+            </div>
+
+            <div>
+                <a href="{% url 'InicioPaciente' %}"><button style="background: #308aca; font-size: 18px;"
+                    class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Registrarme</button></a>
+            </div>
+            <div class="d-flex gap-1 justify-content-center mt-3">
+                <div style="font-size: 15px">Ya tienes una cuenta?</div>
+                <a href="{% url 'InicioSesion' %}" 
+                    style="font-size: 15px; color: black; font-weight: bolder; text-decoration: none;">Ingresa
+                    aqui</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{%endblock%}
