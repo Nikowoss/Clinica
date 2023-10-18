@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Pacientes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous"><!DOCTYPE html>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Pacientes Registrados</h1>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">RUT</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Fecha Nacimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for dato in data %}
+          <tr>
+            <th>{{dato.rutPaciente }}</th>
+            <td>{{dato.nomPaciente }}</td>
+            <td>{{dato.apePaciente }}</td>
+            <td>{{dato.correo }}</td>
+            <td>{{dato.fechaNacimiento }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div style="text-align: center;">
+        <a href="{% url 'InicioPaciente' %}"><button style="background: #308aca; font-size: 18px;"
+            class="btn text-white  mt-4 fw-semibold shadow-sm">Volver al Index</button></a>
+    </div>
+</body>
+
+</html>
