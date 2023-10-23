@@ -8,6 +8,3 @@ class CrearPaciente(forms.ModelForm):
     contraPaciente = forms.CharField(max_length=100)
     fechaNacimiento = forms.DateField()
     
-class LoginForm(forms.ModelForm):
-    rutPaciente = forms.CharField(max_length=12)
-    contraPaciente = forms.CharField(max_length=100)

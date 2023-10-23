@@ -1,6 +1,8 @@
-from django.shortcuts import render
-import requests
-from .forms import CrearPaciente, LoginForm
+from django.shortcuts import render,redirect
+import requests , json
+from .forms import CrearPaciente
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -89,3 +91,41 @@ def crearPaciente(request):
         form = CrearPaciente()
 
     return render(request, 'aplicaciones/CrearCuenta', {'form': form})
+
+def login(request):
+    print("a")
+    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/login'
+
+    print("Vista de inicio de sesión está siendo ejecutada")
+
+    if request.method == 'POST':
+        print("metodo post")
+        usuario_data = {
+            "correo" : str(request.POST.get('correo')),
+            "contraPaciente" : str(request.POST.get('contraPaciente'))
+    }
+        print("Datos del usuario:", usuario_data)
+
+        data_json = json.dumps(usuario_data)
+
+        headers = {'Content-Type' : 'application/json'}
+
+        try:
+            response = requests.post(api_url, data=data_json, headers=headers)
+            print(response)
+            print("Estado de la respuesta:", response.status_code)
+            if response.status_code == 200:
+                respuesta = response.json()
+
+                if respuesta.get("message") :
+                    messages.warning(request, "Error al iniciar sesión")
+                else:
+                    print("Inicio de sesión correcto")
+                    print("Respuesta de la API:", respuesta)
+                    #messages.success(request, "Paciente: " + respuesta.get ("correo")+ "Inicio sesión")
+                    return redirect('HoraMedica')
+            else:
+                print("Credenciales inválidas")
+        except Exception as ex:
+            print("Error en :", ex)
+    return render(request,'aplicaciones/InicioSesion.html')
