@@ -62,12 +62,12 @@ def verPacientes(request):
 
     response = requests.get(url_api_replit)
 
-   if response.status_code == 200:
-       data = response.json()
-       # Procesa los datos como sea necesario
-       return render(request, 'aplicaciones/probandoapirest.html', {'data': data})
-   else:
-       return render(request, 'error.html')
+    if response.status_code == 200:
+        data = response.json()
+        # Procesa los datos como sea necesario
+        return render(request, 'aplicaciones/probandoapirest.html', {'data': data})
+    else:
+        return render(request, 'error.html')
 
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
