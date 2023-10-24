@@ -1,6 +1,7 @@
 {% extends 'aplicaciones/base.html' %}
 {% load static %}
 {% block contenido %}
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE-edge" />
@@ -20,24 +21,29 @@
                 {% csrf_token %}
                 <div class="input-group mt-4">
                     <div class="input-group-text" style="background: navy;">
-                        <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon" style="height: 2.5rem;" />
+                        <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon"
+                            style="height: 2.5rem;" />
                     </div>
-                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="email" placeholder="correoaa" id="correo" name="correo" />
+                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="email" placeholder="Correo"
+                        id="correo" name="correo" />
                 </div>
                 <div class="input-group mt-1">
                     <div class="input-group-text" style="background: navy;">
-                        <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon" style="height: 2.5rem" />
+                        <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon"
+                            style="height: 2.5rem" />
                     </div>
-                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="password" placeholder="Contraseña" id="contraPaciente" name="contraPaciente" />
+                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="password"
+                        placeholder="Contraseña" id="contraPaciente" name="contraPaciente" />
                 </div>
                 <div>
-                    <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Ingresar</button>
+                    <button style="background: navy; font-size: 2rem;"
+                        class="btn text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Ingresar</button>
                 </div>
             </form>
-            </div>
             <div class="d-flex gap-1 justify-content-center mt-3">
                 <div style="font-size: 2rem">No tienes una cuenta?</div>
-                <a href="{% url 'CrearCuenta' %}" class="text-decoration-none fw-semibold" style="font-size: 2rem; color: black;">Registrate aquí</a>
+                <a href="{% url 'CrearCuenta' %}" class="text-decoration-none fw-semibold"
+                    style="font-size: 2rem; color: black;">Registrate aquí</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,94 @@
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{% block contenido %}
+
+
+
+</head>
+<body>
+<nav class="nava">
+    <ul>
+        <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
+        <li><a href="#">Acción 2</a></li>
+        <li><a href="#">Acción 3</a></li>
+        <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+    </ul>
+</nav>
+</head>
+<body>
+<header>
+    <h1>Bienvenido, Dr. Juancho</h1>
+    <p>Fecha: 01 de enero de 2023</p>
+</header>
+
+
+<section>
+    <h2>Próximas Citas</h2>
+    <p>Sin información en este momento.</p>
+</section>
+
+<section>
+    <h2>Notificaciones</h2>
+    <p>No tienes notificaciones en este momento.</p>
+</section>
+
+<section>
+    <h2>Mensajes</h2>
+    <p>No tienes nuevos mensajes.</p>
+</section>
+
+<style>
+
+    header {
+        background-color: navy;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    section {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    p {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .nava {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: lightblue; /* Color al pasar el ratón por encima */
+    }
+</style>
+
+{% endblock %}

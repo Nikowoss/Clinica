@@ -1,7 +1,6 @@
 {% extends 'aplicaciones/base.html' %}
 {% load static %}
 {%block contenido%}
-{% load crispy_forms_tags %}
 
 
 
@@ -14,21 +13,47 @@
 
 </head>
 
-<main style="margin: 120px;">
+<main style="margin: 20px;">
 
     <div class="d-flex justify-content-center align-items-center mh-100 ">
         <div class="p-5" style="width: 60rem;border-radius: 50px;background-color: #87CEEB;">
             <div style="font-weight: bolder;" class="mt-4 text-center fs-1">Registro</div>
-
             <form method="post">
                 {% csrf_token %}
-                {{ form|crispy }}
-                <input type="submit" value="Crear cuenta">
-            </form>
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Rut"
+                        id="rutPaciente" name="rutPaciente" />
+                </div>
 
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Nombre"
+                        id="nomPaciente" name="nomPaciente" />
+                </div>
+
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Apellido"
+                        id="apePaciente" name="apePaciente" />
+                </div>
+
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="email" placeholder="Correo"
+                        id="correo" name="correo" />
+                </div>
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="password"
+                        placeholder="Contraseña" id="contraPaciente" name="contraPaciente" />
+                </div>
+                <div class="input-group mt-4">
+                    <input style="font-size:15px;" class="form-control bg-light" type="date"
+                        placeholder="Fecha de Nacimiento" id="fechaNacimiento" name="fechaNacimiento" />
+                </div>
+                <div>
+                    <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Crear Cuenta</button>
+                </div>
+            </form>
             <div class="d-flex gap-1 justify-content-center mt-3">
                 <div style="font-size: 15px">Ya tienes una cuenta?</div>
-                <a href="{% url 'InicioSesion' %}" 
+                <a href="{% url 'InicioSesion' %}"
                     style="font-size: 15px; color: black; font-weight: bolder; text-decoration: none;">Ingresa
                     aqui</a>
             </div>
