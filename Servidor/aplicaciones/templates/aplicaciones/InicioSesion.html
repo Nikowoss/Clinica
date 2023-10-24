@@ -16,23 +16,24 @@
             </div>
             <div style="font-weight: bolder; font-size: 2rem;" class="mt-4 text-center fs-1">Iniciar sesión</div>
 
-            <div class="input-group mt-4">
-                <div class="input-group-text" style="background: navy;">
-                    <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon" style="height: 2.5rem;" />
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group mt-4">
+                    <div class="input-group-text" style="background: navy;">
+                        <img src="{% static 'aplicaciones/img/username-icon.svg' %}" alt="username-icon" style="height: 2.5rem;" />
+                    </div>
+                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="email" placeholder="correoaa" id="correo" name="correo" />
                 </div>
-                <input style="font-size: 1.8rem;" class="form-control bg-light" type="text" placeholder="RUT" id="username" name="username" />
-            </div>
-            <div class="input-group mt-1">
-                <div class="input-group-text" style="background: navy;">
-                    <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon" style="height: 2.5rem" />
+                <div class="input-group mt-1">
+                    <div class="input-group-text" style="background: navy;">
+                        <img src="{% static 'aplicaciones/img/password-icon.svg' %}" alt="password-icon" style="height: 2.5rem" />
+                    </div>
+                    <input style="font-size: 1.8rem;" class="form-control bg-light" type="password" placeholder="Contraseña" id="contraPaciente" name="contraPaciente" />
                 </div>
-                <input style="font-size: 1.8rem;" class="form-control bg-light" type="password" placeholder="Contraseña" id="password" name="password" />
-            </div>
-            
-            <div>
-                <a href="{% url 'InicioPaciente' %}">
-                    <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Ingresar</button>
-                </a>
+                <div>
+                    <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Ingresar</button>
+                </div>
+            </form>
             </div>
             <div class="d-flex gap-1 justify-content-center mt-3">
                 <div style="font-size: 2rem">No tienes una cuenta?</div>
