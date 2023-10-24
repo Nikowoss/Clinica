@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-import requests
+import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
 
@@ -39,29 +39,45 @@ def verPacientes(request):
        return render(request, 'error.html')
 
 def enviar_cliente_a_api(request):
-    # Datos del cliente que deseas enviar
-    cliente_data = {
-        'rutPaciente': '12345', ##ACA DARLE LOS DATOS DEL FORM EN CREARCUENTA.HTML
-        'nomPaciente': 'John',
-        'apePaciente': 'Doe',
-        'correo': 'john@example.com',
-        'contraPaciente': 'contrasena',
-        'fechaNacimiento': '2000-01-01'
+    print("Estoy en crear")
+    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/add'
+
+    print("Vista Crear")
+
+    if request.method == 'POST':
+        print("metodo post")
+        usuario_data = {
+            "rutPaciente" : str(request.POST.get('rutPaciente')),
+            "nomPaciente" : str(request.POST.get('nomPaciente')),
+            "apePaciente" : str(request.POST.get('apePaciente')),
+            "correo" : str(request.POST.get('correo')),
+            "contraPaciente" : str(request.POST.get('contraPaciente')),
+            "fechaNacimiento" : str(request.POST.get('fechaNacimiento'))
     }
+        print("Datos del usuario:", usuario_data)
 
-    # URL de la API Flask
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/add'  # Reemplaza con la URL real de tu API
+        data_json = json.dumps(usuario_data)
 
-    # Realiza una solicitud POST a la API Flask
-    response = requests.post(api_url, json=cliente_data)
+        headers = {'Content-Type' : 'application/json'}
 
-    ##ACA IRIA LA WEA DE HEADER O UNA WEA ASI QUE ES LO QUE DA PROBLEMA DE MODULO
+        try:
+            response = requests.post(api_url, data=data_json, headers=headers)
+            print(response)
+            print("Estado de la respuesta:", response.status_code)
+            if response.status_code == 200:
+                respuesta = response.json()
 
-    # Verifica si la solicitud fue exitosa
-    if response.status_code == 200:
-        return HttpResponse("Cliente enviado con éxito a la API Flask")
-    else:
-        return HttpResponse("Error al enviar el cliente a la API Flask", status=500)
+                if respuesta.get("message") :
+                    messages.warning(request, "Error al CrearCuenta")
+                else:
+                    print("Inicio de sesión correcto")
+                    print("Respuesta de la API:", respuesta)
+                    return redirect('HoraMedica')
+            else:
+                print("Credenciales inválidas")
+        except Exception as ex:
+            print("Error en :", ex)
+    return render(request,'aplicaciones/CrearCuenta.html')
 
 def login(request):
     print("a")
@@ -93,7 +109,6 @@ def login(request):
                 else:
                     print("Inicio de sesión correcto")
                     print("Respuesta de la API:", respuesta)
-                    #messages.success(request, "Paciente: " + respuesta.get ("correo")+ "Inicio sesión")
                     return redirect('HoraMedica')
             else:
                 print("Credenciales inválidas")
