@@ -18,34 +18,37 @@
     <div class="d-flex justify-content-center align-items-center mh-100 ">
         <div class="p-5" style="width: 60rem;border-radius: 50px;background-color: #87CEEB;">
             <div style="font-weight: bolder;" class="mt-4 text-center fs-1">Registro</div>
-            <form method="post">
+            <form method="post" id="form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="input-group mt-4">
                     <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Rut"
-                        id="rutPaciente" name="rutPaciente" />
+                        id="rutPaciente" name="rutPaciente" required />
+                        
                 </div>
-
+                <h5>Formato: rut con . y -</h5>
                 <div class="input-group mt-4">
                     <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Nombre"
-                        id="nomPaciente" name="nomPaciente" />
+                        id="nomPaciente" name="nomPaciente" required/>
                 </div>
-
+                <h5>Formato: Minimo 3 letras</h5>
                 <div class="input-group mt-4">
                     <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Apellido"
-                        id="apePaciente" name="apePaciente" />
+                        id="apePaciente" name="apePaciente" required/>
                 </div>
-
+                <h5>Formato: Minimo 3 letras</h5>
                 <div class="input-group mt-4">
-                    <input style="font-size:15px;" class="form-control bg-light" type="email" placeholder="Correo"
-                        id="correo" name="correo" />
+                    <input style="font-size:15px;" class="form-control bg-light" type="text" placeholder="Correo"
+                        id="correo" name="correo" required/>
                 </div>
+                <h5>Formato: ejemplo@ejemplo.ej</h5>
                 <div class="input-group mt-4">
-                    <input style="font-size:15px;" class="form-control bg-light" type="password"
-                        placeholder="Contraseña" id="contraPaciente" name="contraPaciente" />
+                    <input style="font-size:15px;" class="form-control bg-light" type="text"
+                        placeholder="Contraseña" id="contraPaciente" name="contraPaciente" required />
                 </div>
+                <h5>Formato: Minimo 4 letras, maximo 12</h5>
                 <div class="input-group mt-4">
                     <input style="font-size:15px;" class="form-control bg-light" type="date"
-                        placeholder="Fecha de Nacimiento" id="fechaNacimiento" name="fechaNacimiento" />
+                        placeholder="Fecha de Nacimiento" id="fechaNacimiento" name="fechaNacimiento" required />
                 </div>
                 <div>
                     <button style="background: navy; font-size: 2rem;" class="btn text-white w-100 mt-4 fw-semibold shadow-sm" type="submit">Crear Cuenta</button>
@@ -60,6 +63,6 @@
         </div>
     </div>
 </main>
-
+<script src="{% static 'aplicaciones/js/Validar.js' %}"></script>
 
 {%endblock%}
