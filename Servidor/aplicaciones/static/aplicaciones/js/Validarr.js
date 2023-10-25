@@ -36,23 +36,23 @@ form.addEventListener('submit', function (event) {
     const contraPaciente = contraPacienteInput.value;
 
     if (!validareRut(rutPaciente)) {
-        alert('Rut no válido');
+        swal("Rut mal ingresado", "Revise el formato", "warning");
         event.preventDefault();
     }
     if (!validarNombre(nomPaciente)) {
-        alert('Nombre no válido');
+        swal("Nombre mal ingresado", "Revise el formato", "warning");
         event.preventDefault();
     }
     if (!validarApellido(apePaciente)) {
-        alert('Apellido no válido');
+        swal("Apellido mal ingresado", "Revise el formato", "warning");
         event.preventDefault();
     }
     if (!validarCorreo(correo)) {
-        alert('Correo no válido');
+        swal("Correo mal ingresado", "Revise el formato", "warning");
         event.preventDefault();
     }
     if (!validarContra(contraPaciente)) {
-        alert('COntraseña no válido');
+        swal("Contraseña mal ingresada", "Revise el formato", "warning");
         event.preventDefault();
     }
 });
