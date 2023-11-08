@@ -1,0 +1,81 @@
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{% block contenido %}
+
+
+
+<head>
+<nav class="nava">
+    <ul>
+        <li><a href="{%url 'VerPacientes'%}">wa</a></li>
+        <li><a href="{%url 'disponibilidad'%}">ws</a></li>
+        <li><a href="#">Acción 3</a></li>
+        <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+        <li><a href="{%url 'VistaMedico'%}">Home</a></li>
+    </ul>
+</nav>
+</head>
+
+<body>
+
+    <h1>Resultados</h1>
+    {{ data|safe }}
+
+</body>
+
+
+<style>
+
+    header {
+        background-color: navy;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    section {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    p {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .nava {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: lightblue; /* Color al pasar el ratón por encima */
+    }
+</style>
+
+{% endblock %}
