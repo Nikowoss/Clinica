@@ -4,30 +4,30 @@
 
 
 
-<head>
+</head>
+<body>
 <nav class="nava">
     <ul>
-<<<<<<< HEAD
-        <li><a href="{%url 'VerPacientes'%}">wa</a></li>
-=======
-        <li><a href="{%url 'VerPacientes'%}">Ver pacientes</a></li>
->>>>>>> seeeb
-        <li><a href="{%url 'disponibilidad'%}">ws</a></li>
+        <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
+        <li><a href="{%url 'disponibilidad'%}">disponibilidad</a></li>
         <li><a href="#">Acción 3</a></li>
         <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
         <li><a href="{%url 'VistaMedico'%}">Home</a></li>
     </ul>
 </nav>
 </head>
-
 <body>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" action="{% url 'enviar_correo' %}">
         {% csrf_token %}
-        <input type="file" name="excel_file">
-        <input type="submit" value="Cargar Excel">
+        <label for="asunto">Asunto:</label>
+        <input type="text" name="asunto" required><br>
+        <label for="destinatario">Destinatario:</label>
+        <input type="email" name="destinatario" required><br>
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" required></textarea><br>
+        <input type="submit" value="Enviar Correo">
     </form>
-
 </body>
 
 
