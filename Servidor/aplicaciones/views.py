@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
-
+from datetime import datetime
 
 # Create your views here.
 
@@ -48,17 +48,34 @@ def agenda(request):
 
 
 def agregaragenda(request):
+    
+    
+    
     print("Estoy en agregargenda")
     api_url = 'https://api-tareas.nicon607.repl.co/api/Agenda/add'
+    url_api_replit = 'https://api-tareas.nicon607.repl.co/api/a/Id' 
 
+    response = requests.get(url_api_replit)
+
+    if response.status_code == 200:
+        data = response.json()
+        json_data = json.dumps(data)
+        parsed_data = json.loads(json_data)
+        idagenda = parsed_data[0]['idagenda']
+        idagedarial = idagenda+1
     print("Vista Crear")
 
     if request.method == 'POST':
+        a = datetime.strptime(request.POST.get("fechainicio"), '%Y-%m-%d')
+        fecha_formateada = a.strftime('%m-%d-%Y')
+        b = datetime.strptime(request.POST.get("fecha_final"), '%Y-%m-%d')
+        fecha_formateadb = b.strftime('%m-%d-%Y')
+        print(fecha_formateada)
         print("metodo post")
         agendadata = {
-            "idagenda" : str(request.POST.get('idagenda')),
-            "fechainicio" : str(request.POST.get('fechainicio')),
-            "fecha_final" : str(request.POST.get('fecha_final')),
+            "idagenda" : idagedarial,
+            "fechainicio" : str(fecha_formateada),
+            "fecha_final" : str(fecha_formateadb),
             "medico_rutmedico" : str(request.POST.get('medico_rutmedico'))
     }
         print("Datos de la agenda:", agendadata)

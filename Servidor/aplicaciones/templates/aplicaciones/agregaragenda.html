@@ -23,14 +23,9 @@
         <main style="margin: 20px;">
             <div class="d-flex justify-content-center align-items-center mh-100 ">
                 <div class="p-5" style="width: 55rem; height: 50rem;border-radius: 50px;background-color: #87CEEB;">
-                    <form method="post">
+                    <form method="post" id="form" name="form">
                         {% csrf_token %}
                         <h1 style="margin-bottom: 20px;text-align: center;">Agregar Agenda</h1>
-                        <br>
-                        <div class="form-group">
-                            <label for="idagenda">Id:</label>
-                            <input type="text" class="form-control" id="idagenda" name="idagenda">
-                        </div>
                         <br>
                         <div class="form-group">
                             <label for="fechainicio">Selecciona una fecha:</label>
@@ -55,7 +50,7 @@
                 </div>
             </div>
         </main>
-
+        <script src="{% static 'aplicaciones/js/ordenarFecha.js' %}"></script>
 
 
 
