@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
+import pandas as pd
 
 
 # Create your views here.
@@ -56,6 +57,33 @@ def CrearCuenta(request):
     return render(request,'aplicaciones/CrearCuenta.html')
 def vistaMedico(request):
     return render(request, 'aplicaciones/vistaMedico.html')
+
+def disponibilidad(request):
+    if request.method == 'POST' and request.FILES['excel_file']:
+        excel_file = request.FILES['excel_file']
+
+        if excel_file.name.endswith('.xls') or excel_file.name.endswith('.xlsx'):
+            df = pd.read_excel(excel_file)
+            
+            # Aquí puedes procesar los datos del DataFrame (df) como desees
+            # Por ejemplo, puedes guardarlos en la base de datos o realizar algún otro cálculo.
+            columnas_mostrar = ['Estado','Fecha','Hora Inicio', 'Hora Final'] #Aqui se agregan los campos a mostrar
+
+            df_mostrar = df[columnas_mostrar]
+
+            # Convierte el DataFrame en una tabla HTML
+            tabla_html = df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)
+
+            return render(request, 'aplicaciones/resultado.html', {'data': tabla_html})
+        else:
+            return render(request, 'aplicaciones/error.html', {'error_message': 'El archivo no es un archivo Excel válido.'})
+    return render(request, 'aplicaciones/disponibilidad.html')
+
+def resultado(request):
+    api_url = 'https://api-tareas.nicon607.repl.co/api/disponibilidad/add'
+
+    
+    return render(request,'aplicaciones/resultado.html')
 
 def verPacientes(request):
     url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
