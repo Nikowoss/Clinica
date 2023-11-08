@@ -36,9 +36,16 @@
         <nav class="navbar">
             <a href="{% url 'InicioPaciente'%}" class="" style="text-decoration: none;"><img
                     src="{% static 'aplicaciones/img/icon-hospital.png' %}" height="80px" 
-                    style="float: left; font-size: x-large;" alt="Logo" ></a>
+                    style="float: left; margin-right: 520px; font-size: x-large;" alt="Logo" ></a>
+                    <div style="display: flex;">
+                        <a style="font-size: medium; text-decoration: none; justify-content: flex-start; background-color: navy; border-color: navy; color: white;"
+                            href="{% url 'InicioSesion' %}" class="btn btn-primary">Iniciar Sesion</a>
+                    </div>  
                 </nav>
+      
                 </header>
+      
+
     {% block contenido%}
 
 

@@ -1,8 +1,6 @@
 {% extends 'aplicaciones/base.html' %}
 {% load static %}
-{%block contenido%}
-
-
+{% block contenido %}
 
 <head>
     <meta charset="UTF-8" />
@@ -10,34 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Buscar Hora</title>
     <link rel="stylesheet" href="{% static 'aplicaciones/css/estilo.css' %}">
-
 </head>
 
 <main style="margin: 120px;">
     <div class="d-flex justify-content-center align-items-center mh-100 ">
-        <div class="p-5" style="width: 55rem; height: 30rem;border-radius: 50px;background-color: #87CEEB;">
+        <div class="p-5" style="width: 55rem; height: 30rem; border-radius: 50px; background-color: #87CEEB;">
             <h1 style="margin-bottom: 20px;">Busqueda Hora Medica</h1>
             <br>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif;">
-                <option selected>Selecciona un centro</option>
-                <option value="1">DIRECCION 1</option>
-                <option value="2">DIRECCION 2</option>
-                <option value="3">DIRECCION 3</option>
-            </select>
-            <br>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif;">
+
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="especialidad">
                 <option selected>Selecciona una especialidad</option>
-                <option value="1">ESPECIALIDAD 1</option>
-                <option value="2">ESPECIALIDAD 2</option>
-                <option value="3">ESPECIALIDAD 3</option>
+                {% for especialidad in especialidades %}
+                    <option value="{{ especialidad.idespecialidad }}">{{ especialidad.nombre }}</option>
+                {% endfor %}
             </select>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="medico">
+                <option selected>Selecciona un médico</option>
+                {% for medico in medicos %}
+                    <option value="{{ medico.rutmedico }}">{{ medico.nombre }} {{ medico.apellido }}</option>
+                {% endfor %}
+            </select>
+            <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="centro">
+                <option selected>Selecciona un centro</option>
+                {% for centro in centros %}
+                    <option value="{{ centro.idcentro }}">{{ centro.nombrecentro }}</option>
+                {% endfor %}
+            </select> -->
+            <br>            
             <div>
-                <a href="{% url 'HoraDisponible' %}"><button style="background: #308aca; font-size: 14px;"
-                    class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Buscar Horas Disponibles</button></a> 
+                <a href="{% url 'HoraDisponible' %}">
+                    <button style="background: #308aca; font-size: 14px;"
+                            class="btn text-white w-100 mt-4 fw-semibold shadow-sm">Buscar Horas Disponibles
+                    </button>
+                </a>
             </div>
         </div>
     </div>
 </main>
 
-
-{%endblock%}
+{% endblock %}
