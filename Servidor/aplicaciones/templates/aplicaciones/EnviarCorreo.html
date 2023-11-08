@@ -4,37 +4,32 @@
 
 
 
-<head>
+</head>
+<body>
 <nav class="nava">
     <ul>
         <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
         <li><a href="{%url 'disponibilidad'%}">disponibilidad</a></li>
         <li><a href="#">Acción 3</a></li>
         <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+        <li><a href="{%url 'VistaMedico'%}">Home</a></li>
     </ul>
 </nav>
 </head>
 <body>
-<header>
-    <h1>Bienvenido, Dr. Juancho</h1>
-    <p>Fecha: 01 de enero de 2023</p>
-</header>
 
+    <form method="post" action="{% url 'enviar_correo' %}">
+        {% csrf_token %}
+        <label for="asunto">Asunto:</label>
+        <input type="text" name="asunto" required><br>
+        <label for="destinatario">Destinatario:</label>
+        <input type="email" name="destinatario" required><br>
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" required></textarea><br>
+        <input type="submit" value="Enviar Correo">
+    </form>
+</body>
 
-<section>
-    <h2>Próximas Citas</h2>
-    <p>Sin información en este momento.</p>
-</section>
-
-<section>
-    <h2>Notificaciones</h2>
-    <p>No tienes notificaciones en este momento.</p>
-</section>
-
-<section>
-    <h2>Mensajes</h2>
-    <p>No tienes nuevos mensajes.</p>
-</section>
 
 <style>
 
@@ -43,7 +38,6 @@
         color: #fff;
         text-align: center;
         padding: 20px;
-        margin-bottom: 20px;
     }
     section {
         margin: 20px;

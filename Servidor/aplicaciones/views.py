@@ -3,6 +3,8 @@ import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
 import pandas as pd
+from django.core.mail import send_mail
+
 
 
 # Create your views here.
@@ -58,6 +60,18 @@ def CrearCuenta(request):
 def vistaMedico(request):
     return render(request, 'aplicaciones/vistaMedico.html')
 
+def enviar_correo(request):
+    if request.method == 'POST':
+        asunto = request.POST['asunto']
+        mensaje = request.POST['mensaje']
+        remitente = 'tu_correo@gmail.com'
+        destinatario = [request.POST['destinatario']]
+
+        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
+
+        return HttpResponse('Correo enviado exitosamente.')
+
+    return render(request, 'aplicaciones/EnviarCorreo.html') 
 def disponibilidad(request):
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
@@ -80,22 +94,64 @@ def disponibilidad(request):
     return render(request, 'aplicaciones/disponibilidad.html')
 
 def resultado(request):
+    """ print("Estoy en enviar_disponibilidad_a_api")
     api_url = 'https://api-tareas.nicon607.repl.co/api/disponibilidad/add'
 
-    
+    print("Vista disponibilidad")
+
+    try:
+        # Procesa los datos del DataFrame (df) según tus necesidades
+        # En este ejemplo, asumimos que el DataFrame tiene las columnas 'Estado', 'Fecha', 'Hora Inicio' y 'Hora Final'
+        dato = []
+        df=data
+        for index, row in df.iterrows():
+            dato.append({
+                "Estado": row['Estado'],
+                "Fecha": str(row['Fecha']),
+                "Hora Inicio": str(row['Hora Inicio']),
+                "Hora Final": str(row['Hora Final'])
+            })
+
+        dato_json = json.dumps(dato)
+
+        headers = {'Content-Type' : 'application/json'}
+
+        response = requests.post(api_url, dato=dato_json, headers=headers)
+        print("Estado de la respuesta:", response.status_code)
+
+        if response.status_code == 200:
+            respuesta = response.json()
+
+            if respuesta.get("message"):
+                print("Error al registrar datos en la API")
+            else:
+                print("Datos registrados en la API con éxito")
+                print("Respuesta de la API:", respuesta)
+        else:
+            print("Error en la solicitud a la API")
+    except Exception as ex:
+        print("Error en la función enviar_disponibilidad_a_api:", ex) """
     return render(request,'aplicaciones/resultado.html')
 
 def verPacientes(request):
     url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
 
     response = requests.get(url_api_replit)
+    
+    if request.method == 'POST':
+        asunto = request.POST['asunto']
+        mensaje = request.POST['mensaje']
+        remitente = 'tu_correo@gmail.com'
+        destinatario = [request.POST['destinatario']]
 
+        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
+        
     if response.status_code == 200:
         data = response.json()
         # Procesa los datos como sea necesario
-        return render(request, 'aplicaciones/probandoapirest.html', {'data': data})
+        return render(request, 'aplicaciones/probandoapirest.html', {'data': data}  )
     else:
-        return render(request, 'error.html')
+        return render(request, 'aplicaciones/error.html')
 
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
