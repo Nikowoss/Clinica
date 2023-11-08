@@ -1,0 +1,139 @@
+{% extends 'aplicaciones/base.html' %}
+{% load static %}
+{% block contenido %}
+
+
+
+</head>
+
+<body>
+    <nav class="nava">
+        <ul>
+            <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
+            <li><a href="{%url 'agenda'%}">Agenda Medica</a></li>
+            <li><a href="#">Acción 3</a></li>
+            <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+    </head>
+
+    <body>
+
+
+        <main style="margin: 20px;">
+            <div class="d-flex justify-content-center align-items-center mh-100 ">
+                <div class="p-5" style="width: 55rem; height: 50rem;border-radius: 50px;background-color: #87CEEB;">
+                    <form method="post">
+                        {% csrf_token %}
+                        <h1 style="margin-bottom: 20px;text-align: center;">Agregar Agenda</h1>
+                        <br>
+                        <div class="form-group">
+                            <label for="idagenda">Id:</label>
+                            <input type="text" class="form-control" id="idagenda" name="idagenda">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="fechainicio">Selecciona una fecha:</label>
+                            <input type="date" class="form-control" id="fechainicio" name="fechainicio">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="fecha_final">Selecciona una fecha:</label>
+                            <input type="date" class="form-control" id="fecha_final" name="fecha_final">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="medico_rutmedico">Medico:</label>
+                            <input type="text" class="form-control" id="medico_rutmedico" name="medico_rutmedico">
+                        </div>
+                        <br>
+                        <div>
+                            <button style="background: #308aca; font-size: 14px;"
+                                class="btn text-white w-100  fw-semibold shadow-sm">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <style>
+            header {
+                background-color: navy;
+                color: #fff;
+                text-align: center;
+                padding: 20px;
+            }
+
+            section {
+                margin: 20px;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+                margin-top: 20px;
+            }
+
+            p {
+                font-size: 16px;
+                margin: 5px 0;
+            }
+
+            .nava {
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                display: inline;
+                margin-right: 20px;
+            }
+
+            a {
+                text-decoration: none;
+                color: #fff;
+                font-weight: bold;
+            }
+
+            a:hover {
+                color: lightblue;
+                /* Color al pasar el ratón por encima */
+            }
+        </style>
+
+        {% endblock %}

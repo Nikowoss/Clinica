@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login,InicioPaciente,enviar_cliente_a_api,HoraMedica,HoraDisponible,verPacientes,vistaMedico
+from .views import login,InicioPaciente,enviar_cliente_a_api,HoraMedica,HoraDisponible,verPacientes,vistaMedico,agenda,agregaragenda
 
 urlpatterns = [
     path('InicioSesion', login,name="InicioSesion"),
@@ -10,4 +10,7 @@ urlpatterns = [
     #path('probandoapirest',probandoapirest,name="probandoapirest"),
     path('verPacientes',verPacientes, name='VerPacientes'),
     path('VistaMedico', vistaMedico, name='VistaMedico'),
+    path('agenda', agenda, name='agenda'),
+    path('agregaragenda', agregaragenda, name='agregaragenda'),
+    
 ]

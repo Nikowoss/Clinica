@@ -42,6 +42,52 @@ def InicioSesion(request):
 
 def CrearCuenta(request):
     return render(request,'aplicaciones/CrearCuenta.html')
+
+def agenda(request):
+    return render(request,'aplicaciones/agenda.html')
+
+
+def agregaragenda(request):
+    print("Estoy en agregargenda")
+    api_url = 'https://api-tareas.nicon607.repl.co/api/Agenda/add'
+
+    print("Vista Crear")
+
+    if request.method == 'POST':
+        print("metodo post")
+        agendadata = {
+            "idagenda" : str(request.POST.get('idagenda')),
+            "fechainicio" : str(request.POST.get('fechainicio')),
+            "fecha_final" : str(request.POST.get('fecha_final')),
+            "medico_rutmedico" : str(request.POST.get('medico_rutmedico'))
+    }
+        print("Datos de la agenda:", agendadata)
+
+        data_json = json.dumps(agendadata)
+
+        headers = {'Content-Type' : 'application/json'}
+
+        try:
+            response = requests.post(api_url, data=data_json, headers=headers)
+            print(response)
+            print("Estado de la respuesta:", response.status_code)
+            if response.status_code == 200:
+                respuesta = response.json()
+
+                if respuesta.get("message") :
+                    messages.warning(request, "Error al agendar")
+                else:
+                    print("AgendaCreada")
+                    print("Respuesta de la API:", respuesta)
+                    return redirect('agenda')
+            else:
+                print("Ingresa bien las was po oeeeee ")
+        except Exception as ex:
+            print("Error en :", ex)
+    
+    
+    
+    return render(request,'aplicaciones/agregaragenda.html')
     
 def InicioPaciente(request):
     return render(request,'aplicaciones/InicioWebPaciente.html')
