@@ -1,12 +1,30 @@
-document.getElementById("form").addEventListener("submit", function(event) {
-    const fecha_str = document.getElementById("fechainicio").value;;  // Ejemplo de cadena de fecha en formato "dd/mm/yyyy"
-    const partes = fecha_str.split('-'); // Divide la cadena en partes usando el caracter '/'
-    const dia = partes[0];
-    const mes = partes[1] - 1; // Resta 1 al mes ya que en JavaScript los meses se indexan desde 0 (enero = 0)
-    const año = partes[2];
-    
-    const fecha_obj = new Date(año, mes, dia);
-    
-    console.log(fecha_obj);
-  });
-  
+//API
+function fetchFeriados(callbackName) {
+    var script = document.createElement('script');
+    var callbackFunctionName = 'jsonpCallback' + Math.floor(Math.random() * 100000);
+
+    window[callbackFunctionName] = function (data) {
+        var calendarData = data.map(function (feriado) {
+            return {
+                title: feriado.nombre,
+                start: feriado.fecha
+            };
+        });
+
+        $('#calendar').fullCalendar({
+            events: calendarData
+        });
+
+        delete window[callbackFunctionName];
+        document.body.removeChild(script);
+    };
+
+    var apiUrl = 'https://apis.digital.gob.cl/fl/feriados/2023?callback=' + callbackFunctionName;
+    script.src = apiUrl;
+    document.body.appendChild(script);
+}
+
+var callbackName = 'miCallback';
+fetchFeriados(callbackName);
+// API LISTA
+

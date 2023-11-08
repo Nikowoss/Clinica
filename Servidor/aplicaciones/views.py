@@ -3,6 +3,9 @@ import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
 from datetime import datetime
+import json
+import calendar
+import datetime
 
 # Create your views here.
 
@@ -44,8 +47,16 @@ def CrearCuenta(request):
     return render(request,'aplicaciones/CrearCuenta.html')
 
 def agenda(request):
+    
+    ##AQUI HACER QUE CARGUEN LAS AGENDA DE ESE MEDICO
     return render(request,'aplicaciones/agenda.html')
 
+def CDPrueba(request):
+    
+    
+    
+    
+    return render(request,'aplicaciones/CDPrueba.html')
 
 def agregaragenda(request):
     
@@ -105,7 +116,48 @@ def agregaragenda(request):
     
     
     return render(request,'aplicaciones/agregaragenda.html')
-    
+def loginMedico(request):
+    print("a")
+    api_url = 'https://api-tareas.nicon607.repl.co/api/Medico/login'
+
+    print("Vista de inicio de sesión está siendo ejecutada")
+
+    if request.method == 'POST':
+        print("metodo post")
+        correo = request.POST.get('correoMedico')
+        print(correo)
+        usuario_data = {
+            "correoMedico" : str(correo),
+            "contramedico" : str(request.POST.get('contramedico')),
+
+    }
+        print("Datos del usuario:", usuario_data)
+        correo = request.POST.get('correoMedico')
+        print(correo)
+
+        data_json = json.dumps(usuario_data)
+
+        headers = {'Content-Type' : 'application/json'}
+
+        try:
+            response = requests.post(api_url, data=data_json, headers=headers)
+            print(response)
+            print("Estado de la respuesta:", response.status_code)
+            if response.status_code == 200:
+                respuesta = response.json()
+
+                if respuesta.get("message") :
+                    messages.warning(request, "Error al iniciar sesión")
+                else:
+                    print("Respuesta de la API:", respuesta)
+                    print(correo)
+                    return redirect('VistaMedico')
+            else:
+                print("Credenciales inválidas")
+        except Exception as ex:
+            print("Error en :", ex)
+    return render(request,'aplicaciones/InicioMedico.html')
+
 def InicioPaciente(request):
     return render(request,'aplicaciones/InicioWebPaciente.html')
 
@@ -118,7 +170,8 @@ def HoraDisponible(request):
 def CrearCuenta(request):
     return render(request,'aplicaciones/CrearCuenta.html')
 def vistaMedico(request):
-    return render(request, 'aplicaciones/vistaMedico.html')
+    correo = request.session.get('correo')
+    return render(request, 'aplicaciones/VistaMedico.html', {'correo': correo})
 
 def verPacientes(request):
     url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
