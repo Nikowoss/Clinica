@@ -4,8 +4,6 @@ from django.http import HttpResponse
 from django.contrib import messages
 from datetime import datetime
 import json
-import calendar
-import datetime
 import pandas as pd
 from django.core.mail import send_mail
 
@@ -45,7 +43,7 @@ def disponibilidad(request):
     return render(request, 'aplicaciones/disponibilidad.html')
 
 def resultado(request):
-    api_url = 'https://api-tareas.nicon607.repl.co/api/disponibilidad/add'
+    api_url = 'https://api_tareas-1.nicon607.repl.co/api/disponibilidad/add'
 
     
     return render(request,'aplicaciones/resultado.html')
@@ -102,8 +100,8 @@ def CDPrueba(request):
 def agregaragenda(request):
 
     print("Estoy en agregargenda")
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Agenda/add'
-    url_api_replit = 'https://api-tareas.nicon607.repl.co/api/a/Id' 
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Agenda/add'
+    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/a/Id' 
 
     response = requests.get(url_api_replit)
 
@@ -124,8 +122,8 @@ def agregaragenda(request):
         print("metodo post")
         agendadata = {
             "idagenda" : idagedarial,
-            "fechainicio" : (fecha_formateada),
-            "fecha_final" : (fecha_formateadb),
+            "fechainicio" : str(fecha_formateada),
+            "fecha_final" : str(fecha_formateadb),
             "medico_rutmedico" : str(request.POST.get('medico_rutmedico'))
     }
         print("Datos de la agenda:", agendadata)
@@ -157,7 +155,7 @@ def agregaragenda(request):
     return render(request,'aplicaciones/agregaragenda.html')
 def loginMedico(request):
     print("a")
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Medico/login'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Medico/login'
 
     print("Vista de inicio de sesión está siendo ejecutada")
 
@@ -222,7 +220,7 @@ def verPacientes(request):
 
         send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
         
-    url_api_replit = 'https://api-tareas.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
+    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
 
     response = requests.get(url_api_replit)
 
@@ -235,7 +233,7 @@ def verPacientes(request):
 
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/add'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/add'
 
     print("Vista Crear")
 
@@ -276,7 +274,7 @@ def enviar_cliente_a_api(request):
 
 def login(request):
     print("a")
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Paciente/login'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/login'
 
     print("Vista de inicio de sesión está siendo ejecutada")
 
@@ -312,7 +310,7 @@ def login(request):
     return render(request,'aplicaciones/InicioSesion.html')
 
 def getEspecialidades(request):
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Especialidad'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Especialidad'
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -326,7 +324,7 @@ def getEspecialidades(request):
     
 
 def getMedicos(request):
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Medico'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Medico'
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -339,7 +337,7 @@ def getMedicos(request):
 
 
 def getCentros(request):
-    api_url = 'https://api-tareas.nicon607.repl.co/api/Centro'
+    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Centro'
     response = requests.get(api_url)
     
     if response.status_code == 200:
