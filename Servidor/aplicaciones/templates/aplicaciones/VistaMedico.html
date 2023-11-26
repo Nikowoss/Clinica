@@ -32,6 +32,7 @@
 <body>
 <nav class="nava">
     <ul>
+        <li><a href="{%url 'VistaMedico'%}">Inicio</a></li>
         <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
         <li><a href="{%url 'agenda'%}">Agenda Medica</a></li>
         <li><a href="{%url 'disponibilidad'%}">Disponibilidad</a></li>
@@ -41,8 +42,7 @@
 </head>
 <body>
 <header>
-    <h3>Bienvenido,{{ correo }}</h3>
-    <h6>Fecha: 01 de enero de 2023</h6>
+    <h3>Bienvenido, {{ medico_data.nommedico }} {{ medico_data.apemedico }}</h3>
 </header>
 
 

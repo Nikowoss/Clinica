@@ -12,6 +12,15 @@
 </head>
 
 <body>
+  <nav class="nava">
+    <ul>
+        <li><a href="{%url 'VistaMedico'%}">Inicio</a></li>
+        <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
+        <li><a href="{%url 'agenda'%}">Agenda Medica</a></li>
+        <li><a href="{%url 'disponibilidad'%}">Disponibilidad</a></li>
+        <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+    </ul>
+</nav>
     <h1 style="text-align: center;">Pacientes Registrados</h1>
     <table class="table">
         <thead class="thead-dark">
@@ -59,4 +68,32 @@
 <script>
   document.querySelectorAll('div[id="desa"]').style.display ='none';
 </script>
+<style>
+  .nava {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    font-size: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+a:hover {
+    color: lightblue; /* Color al pasar el ratón por encima */
+}
+</style>
 </html>

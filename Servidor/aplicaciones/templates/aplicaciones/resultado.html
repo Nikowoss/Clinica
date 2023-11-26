@@ -5,27 +5,23 @@
 
 
 <head>
-<nav class="nava">
-    <ul>
-        <li><a href="{%url 'VerPacientes'%}">wa</a></li>
-        <li><a href="{%url 'disponibilidad'%}">ws</a></li>
-        <li><a href="#">Acción 3</a></li>
-        <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
-        <li><a href="{%url 'VistaMedico'%}">Home</a></li>
-    </ul>
-</nav>
+    <nav class="nava">
+        <ul>
+            <li><a href="{%url 'VistaMedico'%}">Inicio</a></li>
+            <li><a href="{%url 'VerPacientes'%}">Ver Pacientes</a></li>
+            <li><a href="{%url 'agenda'%}">Agenda Medica</a></li>
+            <li><a href="{%url 'disponibilidad'%}">Disponibilidad</a></li>
+            <li><a href="{%url 'InicioPaciente'%}">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
 </head>
 
 <body>
-<<<<<<< HEAD
 
-    <h1>Resultados</h1>
-=======
     <div>
         <h1>Resultados</h1>
         <button onsubmit=""></button>
     </div>
->>>>>>> seeeb
     {{ data|safe }}
 
 </body>

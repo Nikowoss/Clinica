@@ -17,7 +17,7 @@
             </div>
             <div style="font-weight: bolder; font-size: 2rem;" class="mt-4 text-center fs-1">Inicio Sesión Médico</div>
 
-            <form method="post">
+            <form method="post" id="form">
                 {% csrf_token %}
                 <div class="input-group mt-4">
                     <div class="input-group-text" style="background: navy;">
@@ -43,4 +43,5 @@
         </div>
     </div>
 </main>
+
 {% endblock %}
