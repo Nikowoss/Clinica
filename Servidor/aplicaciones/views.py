@@ -87,8 +87,16 @@ def CrearCuenta(request):
 
 def agenda(request):
     
-    ##AQUI HACER QUE CARGUEN LAS AGENDA DE ESE MEDICO
-    return render(request,'aplicaciones/agenda.html')
+    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Agenda/'  # Reemplaza con la URL real
+
+    response = requests.get(url_api_replit)
+
+    if response.status_code == 200:
+        data = response.json()
+        # Procesa los datos como sea necesario
+        return render(request, 'aplicaciones/agenda.html', {'data': data})
+    else:
+        return render(request, 'aplicaciones/error.html')
 
 def CDPrueba(request):
     

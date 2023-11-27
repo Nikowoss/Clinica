@@ -24,11 +24,30 @@
 <div style="margin: 5px;">
     <a style="font-size: medium; text-decoration: none; justify-content: flex-start; background-color: navy; border-color: navy; color: white;"
         href="{% url 'agregaragenda' %}" class="btn btn-primary">Agregar Agenda</a>
+        
 </div>
-<section>
-    <h2>Agenda Medica 1</h2>
-    <p>ACA VA EL GET AGENDA BY RUT QUE TA COMENTADO EN EL REPLIT</p>
-</section>
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">medico_rutmedico</th>
+        <th scope="col">fechainicio</th>
+        <th scope="col">fecha_final</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for dato in data %}
+      <tr>
+        <th>{{dato.medico_rutmedico }}</th>
+        <td>{{dato.fechainicio }}</td>
+        <td>{{dato.fecha_final }}</td>
+        <td><a style="font-size: medium; text-decoration: none; justify-content: flex-start; background-color: navy; border-color: navy; color: white;"
+        href="{% url 'disponibilidad' %}" class="btn btn-primary">Agregar Excel</a></td><
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 <style>
 
