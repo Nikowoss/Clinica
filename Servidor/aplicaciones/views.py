@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 import requests, json
 from django.http import HttpResponse
 from django.contrib import messages
+from django.core.mail import send_mail
 from datetime import datetime
 import json
 import calendar
@@ -30,7 +31,18 @@ def disponibilidad(request):
         else:
             return render(request, 'aplicaciones/error.html', {'error_message': 'El archivo no es un archivo Excel válido.'})
     return render(request, 'aplicaciones/disponibilidad.html')
+def enviar_correo(request):
+    if request.method == 'POST':
+        asunto = request.POST['asunto']
+        mensaje = request.POST['mensaje']
+        remitente = 'tu_correo@gmail.com'
+        destinatario = [request.POST['destinatario']]
 
+        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
+
+        return HttpResponse('Correo enviado exitosamente.')
+
+    return render(request, 'aplicaciones/EnviarCorreo.html') 
 def resultado(request):
     api_url = 'https://api-tareas.nicon607.repl.co/api/disponibilidad/add'
 
@@ -207,12 +219,19 @@ def verPacientes(request):
 
     response = requests.get(url_api_replit)
 
+    if request.method == 'POST':
+        asunto = request.POST['asunto']
+        mensaje = request.POST['mensaje']
+        remitente = 'tu_correo@gmail.com'
+        destinatario = [request.POST['destinatario']]
+
+        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
     if response.status_code == 200:
         data = response.json()
         # Procesa los datos como sea necesario
         return render(request, 'aplicaciones/probandoapirest.html', {'data': data})
     else:
-        return render(request, 'error.html')
+        return render(request, 'aplicaciones/error.html')
 
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
