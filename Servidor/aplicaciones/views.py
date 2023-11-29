@@ -450,8 +450,12 @@ def getMedicos(request):
 
     if response.status_code == 200:
         data = response.json()
-        medicos = [{'nombre': medico['nommedico'], 'apellido': medico['apemedico']} for medico in data]
-        print("Nombres de Medicos:", medicos)
+        medicos = [{
+            'nombre': medico['nommedico'],
+            'apellido': medico['apemedico'],
+            'especialidad_idespecialidad': medico['especialidad_idespecialidad']
+        } for medico in data]
+        print("Información de los Médicos:", medicos)
         return medicos
     else:
         return []

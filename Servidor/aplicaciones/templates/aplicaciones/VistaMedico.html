@@ -1,4 +1,7 @@
+{% extends 'aplicaciones/base.html' %}
 {% load static %}
+{% block contenido %}
+
 
 <head>
     <meta charset="UTF-8">
@@ -41,12 +44,15 @@
 </nav>
 </head>
 <body>
-<header>
-    <h3>Bienvenido, {{ medico_data.nommedico }} {{ medico_data.apemedico }}</h3>
-</header>
+    <header>
+        <h3>Bienvenido, {{ medico_data.correoMedico }}</h3>
+        <p>Contenido de medico_data: {{ medico_data }}</p>
+    </header>
+    
 
 
-<section>
+
+<section> 
     <h2>Próximas Citas</h2>
     <p>Sin información en este momento.</p>
 </section>
@@ -114,3 +120,4 @@
         color: lightblue; /* Color al pasar el ratón por encima */
     }
 </style>
+{% endblock %}
