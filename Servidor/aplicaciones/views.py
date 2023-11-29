@@ -23,25 +23,67 @@ def enviar_correo(request):
     return render(request, 'aplicaciones/EnviarCorreo.html') 
     
 def disponibilidad(request):
+    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Modulo/add' 
+
+    
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
 
         if excel_file.name.endswith('.xls') or excel_file.name.endswith('.xlsx'):
             df = pd.read_excel(excel_file)
             
-            # Aquí puedes procesar los datos del DataFrame (df) como desees
-            # Por ejemplo, puedes guardarlos en la base de datos o realizar algún otro cálculo.
-            columnas_mostrar = ['Estado','Fecha','Hora Inicio', 'Hora Final'] #Aqui se agregan los campos a mostrar
+            columnas_mostrar = ['Estado','Fecha','Hora Inicio', 'Hora Final'] #Aqui se agregan los campos a mostrar que coincidan en el excel
 
             df_mostrar = df[columnas_mostrar]
+            
+            #para tener las filas por separadas
+            filas_lista = df[columnas_mostrar].values.tolist() 
+            #recorrer la matriz
+            x=0
+            
+            
+            """ if api_response.status_code == 200:
+                return render(request, 'aplicaciones/resultado.html', {'data': df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)})
+            else:
+                messages.warning(request, f"Error al enviar datos a la API. Código de estado: {api_response.status_code}") """
+        
+            
+            for lista in filas_lista:
+                lista_def = []
+                print(lista)
+                print(x)
+                lista_def.append(x)
+                lista_def.append(str(lista[2]))
+                lista_def.append(str(lista[3]))
+                x=x+1
+                print(lista_def)
+                modulo_data = {
+            "idmodulo" : x,
+            "horaInicio" : str(lista[2]),
+            "horaFinal" : str(lista[3])
+            }
+
+                # Convertir la lista de diccionarios a JSON
+                lista_def_json = json.dumps(modulo_data)
+
+                # Enviar lista_def_json a la API
+                api_response = requests.post(url_api_replit, data=lista_def_json, headers={'Content-Type': 'application/json'})
+                if api_response.status_code == 200:
+                    print(lista_def_json)
 
             # Convierte el DataFrame en una tabla HTML
+            if api_response.status_code == 200:
+                return render(request, 'aplicaciones/resultado.html', {'data': df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)})
+            else:
+                messages.warning(request, f"Error al enviar datos a la API. Código de estado: {api_response.status_code}")
             tabla_html = df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)
 
-            return render(request, 'aplicaciones/resultado.html', {'data': tabla_html})
+            return render(request, 'aplicaciones/resultado.html', {'data': tabla_html, 'filas_lista': filas_lista})
         else:
             return render(request, 'aplicaciones/error.html', {'error_message': 'El archivo no es un archivo Excel válido.'})
     return render(request, 'aplicaciones/disponibilidad.html')
+
+
 def enviar_correo(request):
     if request.method == 'POST':
         asunto = request.POST['asunto']
