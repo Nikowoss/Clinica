@@ -24,7 +24,7 @@ def enviar_correo(request):
     
 def disponibilidad(request):
     url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Modulo/add' 
-
+    url_api = 'https://api-tareas-1.nicon607.repl.co/api/Disponibilidad/add' 
     
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
@@ -38,38 +38,90 @@ def disponibilidad(request):
             
             #para tener las filas por separadas
             filas_lista = df[columnas_mostrar].values.tolist() 
-            #recorrer la matriz
-            x=0
+            #obtener el rut del medico de la lista en el excel
+            rut_lista = df['Rut Medico'].values.tolist()
             
-            
-            """ if api_response.status_code == 200:
-                return render(request, 'aplicaciones/resultado.html', {'data': df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)})
+            rut = rut_lista[0]
+            print(rut)
+            #obtener los valores maximos de las id, evitando que se repitan claves primarias
+            api = 'https://api-tareas-1.nicon607.repl.co/api/Modulo'
+            response = requests.get(api)
+            x = 0
+            y = 0
+            if response.status_code == 200:
+                data = response.json()
+                ids = [modulo['idmodulo'] for modulo in data]
+                
+                if ids:
+                    x = max(ids)
+                else:
+                    x = 0
             else:
-                messages.warning(request, f"Error al enviar datos a la API. Código de estado: {api_response.status_code}") """
-        
-            
+                x = 0
+            api_v2 = 'https://api-tareas-1.nicon607.repl.co/api/Disponibilidad'
+            response_v2 = requests.get(api_v2)
+            if response_v2.status_code == 200:
+                dat = response_v2.json()
+                ids_v2 = [disponibilidad['id_disponibilidad'] for disponibilidad in dat]
+                if ids_v2:
+                    print("error aca antes")
+                    y = max(ids_v2)
+                    print("error aca")
+                else:
+                    y = 1
+                    print(y)
+            else:
+                y = 1
+            #recorrer la matriz y mandar datos al replit
             for lista in filas_lista:
+                x = x + 1
                 lista_def = []
-                print(lista)
-                print(x)
+                #print(lista)
+                #print(x)
                 lista_def.append(x)
                 lista_def.append(str(lista[2]))
                 lista_def.append(str(lista[3]))
-                x=x+1
-                print(lista_def)
+                
+                #print(lista_def)
+                #tabla modulo
                 modulo_data = {
-            "idmodulo" : x,
-            "horaInicio" : str(lista[2]),
-            "horaFinal" : str(lista[3])
-            }
+                    "idmodulo" : x,
+                    "horaInicio" : str(lista[2]),
+                    "horaFinal" : str(lista[3])
+                }
+                #tabla disponibilidad
+                dispo_data = {
+                    "id_disponibilidad" : y,
+                    "modulo_idmodulo" : x,
+                    "fechaDispon" : str(lista[1]),
+                    "disponible" : str(lista[0]),
+                    "rut_medico" : rut
+                    }
 
                 # Convertir la lista de diccionarios a JSON
                 lista_def_json = json.dumps(modulo_data)
+                dispo_json = json.dumps(dispo_data)
 
                 # Enviar lista_def_json a la API
                 api_response = requests.post(url_api_replit, data=lista_def_json, headers={'Content-Type': 'application/json'})
+                # enviar dispo_json a la API
+                api_res = requests.post(url_api, data=dispo_json, headers={'Content-Type': 'application/json'})
+                #desde que se agrego el rut_medico se marca error con la API, puede ser que no lo recibe bien la api
+                # por tipo de dato, o que no se envia bien a la BD (sirve borrar la columna y volverla a crear) 
+                
+                print("Respuesta API Modulo:", api_response.status_code)
+                print("Respuesta API Disponibilidad:", api_res.status_code)
+
+                if api_res.status_code == 200:
+                    print(api_res.status_code)
+                else:
+                    print(api_res.status_code)
+                    print("respuesta de disponibilidad mala")
                 if api_response.status_code == 200:
-                    print(lista_def_json)
+                    print(api_response.status_code)
+                else:
+                    print(api_response.status_code)
+                    print("respuesta de modulo mala")
 
             # Convierte el DataFrame en una tabla HTML
             if api_response.status_code == 200:
