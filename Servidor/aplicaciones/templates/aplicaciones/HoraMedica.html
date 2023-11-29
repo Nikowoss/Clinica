@@ -16,24 +16,22 @@
             <h1 style="margin-bottom: 20px;">Busqueda Hora Medica</h1>
             <br>
 
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="especialidad">
-                <option selected>Selecciona una especialidad</option>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="especialidad" id="especialidadSelect">
+                <option value="" selected>Selecciona una especialidad</option>
                 {% for especialidad in especialidades %}
-                    <option value="{{ especialidad.idespecialidad }}">{{ especialidad.nombre }}</option>
+                    <option value="{{ especialidad.id }}">{{ especialidad.nombre }}</option>
                 {% endfor %}
             </select>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="medico">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="medico" id="medicoSelect">
                 <option selected>Selecciona un médico</option>
                 {% for medico in medicos %}
-                    <option value="{{ medico.rutmedico }}">{{ medico.nombre }} {{ medico.apellido }}</option>
+                    <option value="{{ medico.rutmedico }}" data-especialidad="{{ medico.especialidad_idespecialidad }}">{{ medico.nombre }} {{ medico.apellido }}</option>
                 {% endfor %}
             </select>
-            <!-- <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="font-family: 'Arial', sans-serif" name="centro">
-                <option selected>Selecciona un centro</option>
-                {% for centro in centros %}
-                    <option value="{{ centro.idcentro }}">{{ centro.nombrecentro }}</option>
-                {% endfor %}
-            </select> -->
+            
+            
+            
+
             <br>            
             <div>
                 <a href="{% url 'HoraDisponible' %}">
@@ -45,5 +43,34 @@
         </div>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('especialidadSelect').addEventListener('change', function() {
+            var selectedEspecialidadId = this.value;
+            var medicoSelect = document.getElementById('medicoSelect');
+            
+            console.log('Especialidad Seleccionada:', selectedEspecialidadId);
+
+            // Oculta todos los médicos
+            Array.from(medicoSelect.options).forEach(function(option) {
+                option.style.display = 'none';
+            });
+
+            // Muestra solo los médicos de la especialidad seleccionada
+            Array.from(medicoSelect.options).forEach(function(option) {
+                var medicoEspecialidadId = option.getAttribute('data-especialidad');
+                console.log('ID de Especialidad del Médico:', medicoEspecialidadId);
+                if (medicoEspecialidadId == selectedEspecialidadId || selectedEspecialidadId == "") {
+                    option.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 
 {% endblock %}
