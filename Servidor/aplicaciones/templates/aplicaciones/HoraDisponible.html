@@ -15,41 +15,28 @@
 <body>
 
 <div class="container">
-    <h2>Toma de Horas</h2>
-
-    <form id="searchForm">
-        <div class="form-group">
-            <label for="medico">Médico:</label>
-            <select class="form-control" id="medico" name="medico">
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="especialidad">Especialidad:</label>
-            <select class="form-control" id="especialidad" name="especialidad">
-            </select>
-        </div>
-
-        <button type="button" class="btn btn-primary" onclick="buscarHorasDisponibles()">Buscar Horas Disponibles</button>
-    </form>
-
-    <h3>Horas Disponibles</h3>
+    <h2>Disponibilidad del Médico</h2>
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
-                <th>Módulo</th>
-                <th>Hora Inicio</th>
-                <th>Hora Final</th>
-                <th>Disponible</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Horario Entrada</th>
+                <th scope="col">Horario Salida</th>
+                <th scope="col">Accion</th>
             </tr>
         </thead>
-        <tbody id="tablaHoras">
+        <tbody>
+            {% for item in disp %}
+            <tr>
+                <td>{{item.fechaDispon }}</td>
+                <td>{{item.horaInicio }}</td>
+                <td>{{item.horaFinal }}</td>
+                <td>(Boton Generar Hora Medica)</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
-
-
-
 </body>
 </html>
 

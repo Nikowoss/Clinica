@@ -193,7 +193,7 @@ def CrearCuenta(request):
 
 def agenda(request):
     
-    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/DisponibilidadNico/'  # Reemplaza con la URL real
+    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/DisponibilidadNico/' 
 
     response = requests.get(url_api_replit)
 
@@ -312,8 +312,6 @@ def loginMedico(request):
 def InicioPaciente(request):
     return render(request,'aplicaciones/InicioWebPaciente.html')
 
-def HoraMedica(request):
-    return render(request,'aplicaciones/HoraMedica.html')
 
 def HoraDisponible(request):
     return render(request,'aplicaciones/HoraDisponible.html')
@@ -423,7 +421,7 @@ def login(request):
                 else:
                     print("Inicio de sesión correcto")
                     print("Respuesta de la API:", respuesta)
-                    return redirect('HoraMedica')
+                    return redirect('HoraMedica',{'disp': respuesta})
             else:
                 print("Credenciales inválidas")
         except Exception as ex:
@@ -437,7 +435,6 @@ def getEspecialidades(request):
     if response.status_code == 200:
         data = response.json()
         especialidades = [{'id': especialidad['idespecialidad'], 'nombre': especialidad['nomespecialidad']} for especialidad in data]
-        print("Especialidades:", especialidades)
         return especialidades
     else:
         return []
@@ -451,11 +448,11 @@ def getMedicos(request):
     if response.status_code == 200:
         data = response.json()
         medicos = [{
+            'rutmedico': medico['rutmedico'],
             'nombre': medico['nommedico'],
             'apellido': medico['apemedico'],
             'especialidad_idespecialidad': medico['especialidad_idespecialidad']
         } for medico in data]
-        print("Información de los Médicos:", medicos)
         return medicos
     else:
         return []
@@ -468,10 +465,26 @@ def getCentros(request):
     if response.status_code == 200:
         data = response.json()
         nombres_centros = [( centro['nombrecentro']) for centro in data]
-        print("Nombres de centros:", nombres_centros)
         return nombres_centros
     else:
         return []
+
+def HoraDisponible(request):
+    try:
+        if request.method == 'POST':
+            rut_medico = request.POST.get('medico')
+            api_url = 'https://api-tareas-1.nicon607.repl.co/api/DisponibilidadNico/a'
+            response = requests.post(api_url, json={'rut_medico': rut_medico})
+
+            if response.status_code == 200:
+                disp = response.json()
+                return render(request, 'aplicaciones/HoraDisponible.html', {'disp': disp})
+            else:
+                return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+        else:
+            return render(request, 'aplicaciones/error.html', {'error_message': 'Método no permitido'})
+    except Exception as ex:
+        return render(request, 'aplicaciones/error.html', {'error_message': str(ex)})
 
 
 def HoraMedica(request):
