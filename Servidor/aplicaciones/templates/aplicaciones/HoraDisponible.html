@@ -5,44 +5,66 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toma de Horas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
+
 <body>
-
-<div class="container">
-    <h2>Disponibilidad del Médico</h2>
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Horario Entrada</th>
-                <th scope="col">Horario Salida</th>
-                <th scope="col">Accion</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in disp %}
-            <tr>
-                <td>{{item.fechaDispon }}</td>
-                <td>{{item.horaInicio }}</td>
-                <td>{{item.horaFinal }}</td>
-                <td>(Boton Generar Hora Medica)</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <div class="container">
+        <h2>Disponibilidad del Médico</h2>
+        {% for item in disp %}
+        <h1>{{item.nomPaciente }}</h1>
+        {% endfor %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Horario Entrada</th>
+                    <th scope="col">Horario Salida</th>
+                    <th scope="col">Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in dato %}
+                <tr>
+                    <td>{{ item.fechaDispon }}</td>
+                    <td>{{ item.horaInicio }}</td>
+                    <td>{{ item.horaFinal }}</td>
+                    <td>
+                        <button class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm"
+                            data-fecha="{{ item.fechaDispon }}" data-hora-inicio="{{ item.horaInicio }}"
+                            data-hora-final="{{ item.horaFinal }}">Elegir</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>
-
-
-
-
-
-
+<script>
+    $(document).ready(function() {
+        $('.btn-elegir').on('click', function() {
+            var fecha = $(this).data('fecha');
+            var horaInicio = $(this).data('hora-inicio');
+            var horaFinal = $(this).data('hora-final');
+    
+            // Almacena los datos en sessionStorage
+            sessionStorage.setItem('fecha', fecha);
+            sessionStorage.setItem('horaInicio', horaInicio);
+            sessionStorage.setItem('horaFinal', horaFinal);
+    
+            // Redirige a la otra página
+            window.location.href = 'VerHoraMedica';  // Cambia '/otra_pagina/' con la URL de la otra página
+        });
+    });
+    </script>
+    
 {% endblock %}

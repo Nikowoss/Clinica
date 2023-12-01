@@ -426,6 +426,7 @@ def login(request):
                     especialidades = getEspecialidades(request)
                     medicos = getMedicos(request)
                     centros = getCentros(request)
+                    request.session['disp'] = disp
                     return render(request, 'aplicaciones/HoraMedica.html', {'especialidades': especialidades, 'medicos': medicos, 'centros': centros, 'disp': disp})
             else:
                 print("Credenciales inválidas")
@@ -473,19 +474,42 @@ def getCentros(request):
         return nombres_centros
     else:
         return []
+def VerHoraMedica(request):
+    disp = request.session.get('disp', {})
+    
+    return render(request,'aplicaciones/VerHoraMedica.html', {'disp': disp})
 
 def HoraDisponible(request):
     try:
         if request.method == 'POST':
             rut_medico = request.POST.get('medico')
-            api_url = 'https://api-tareas-2.nicon607.repl.co/api/DisponibilidadNico/a'
-            response = requests.post(api_url, json={'rut_medico': rut_medico})
-
+            especialidad = request.POST.get('especialidad')
+            print(rut_medico)
+            print(especialidad)
+            if rut_medico != "Selecciona un médico":
+                print(rut_medico)
+                api_url = 'https://api-tareas-2.nicon607.repl.co/api/DisponibilidadNico/a'
+                response = requests.post(api_url, json={'rut_medico': rut_medico})
+                if response.status_code == 200:
+                    
+                    dato = response.json()
+                    disp = request.session.get('disp', {})
+                    datoDisp = request.session.get('datoDisp', {})
+                    return render(request, 'aplicaciones/HoraDisponible.html', {'dato': dato, 'disp': disp, 'datoDisp': datoDisp})
+                else:
+                    return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+            else:
+                api_url = 'https://api-tareas-2.nicon607.repl.co/api/DisponibilidadNico/b'
+                response = requests.post(api_url, json={'especialidad_idespecialidad': especialidad})
             if response.status_code == 200:
-                disp = response.json()
-                return render(request, 'aplicaciones/HoraDisponible.html', {'disp': disp})
+                dato = response.json()
+                disp = request.session.get('disp', {})
+                datoDisp = request.session.get('datoDisp', {})
+                return render(request, 'aplicaciones/HoraDisponible.html', {'dato': dato, 'disp': disp, 'datoDisp': datoDisp})
             else:
                 return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+
+            
         else:
             return render(request, 'aplicaciones/error.html', {'error_message': 'Método no permitido'})
     except Exception as ex:
