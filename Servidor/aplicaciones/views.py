@@ -394,7 +394,17 @@ def enviar_cliente_a_api(request):
 def login(request):
     print("a")
     api_url = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/login'
+<<<<<<< Updated upstream
     api_urlxdatospaci = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/b'
+=======
+<<<<<<< Updated upstream
+    api_urlxdatospaci = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/b'
+=======
+
+    print("Vista de inicio de sesión está siendo ejecutada")
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     if request.method == 'POST':
         print("metodo post")
         correo = request.POST.get('correo')
@@ -423,10 +433,20 @@ def login(request):
                     print(response2)
                     print("Inicio de sesión correcto")
                     print("Respuesta de la API:", respuesta)
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
                     especialidades = getEspecialidades(request)
                     medicos = getMedicos(request)
                     centros = getCentros(request)
                     return render(request, 'aplicaciones/HoraMedica.html', {'especialidades': especialidades, 'medicos': medicos, 'centros': centros, 'disp': disp})
+<<<<<<< Updated upstream
+=======
+=======
+                    return render(request, 'aplicaciones/HoraMedica.html', {'disp': response})
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             else:
                 print("Credenciales inválidas")
         except Exception as ex:
