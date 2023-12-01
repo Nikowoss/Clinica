@@ -394,11 +394,10 @@ def enviar_cliente_a_api(request):
 def login(request):
     print("a")
     api_url = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/login'
-
-    print("Vista de inicio de sesión está siendo ejecutada")
-
+    api_urlxdatospaci = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/b'
     if request.method == 'POST':
         print("metodo post")
+        correo = request.POST.get('correo')
         usuario_data = {
             "correo" : str(request.POST.get('correo')),
             "contraPaciente" : str(request.POST.get('contraPaciente'))
@@ -411,17 +410,23 @@ def login(request):
 
         try:
             response = requests.post(api_url, data=data_json, headers=headers)
+            response2 = requests.post(api_urlxdatospaci, json={'correo': correo})
             print(response)
+            print(response2)
             print("Estado de la respuesta:", response.status_code)
             if response.status_code == 200:
                 respuesta = response.json()
-
+                disp = response2.json()
                 if respuesta.get("message") :
                     messages.warning(request, "Error al iniciar sesión")
                 else:
+                    print(response2)
                     print("Inicio de sesión correcto")
                     print("Respuesta de la API:", respuesta)
-                    return render(request, 'aplicaciones/HoraMedica.html', {'disp': response})
+                    especialidades = getEspecialidades(request)
+                    medicos = getMedicos(request)
+                    centros = getCentros(request)
+                    return render(request, 'aplicaciones/HoraMedica.html', {'especialidades': especialidades, 'medicos': medicos, 'centros': centros, 'disp': disp})
             else:
                 print("Credenciales inválidas")
         except Exception as ex:
