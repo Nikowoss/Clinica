@@ -23,8 +23,8 @@ def enviar_correo(request):
     return render(request, 'aplicaciones/EnviarCorreo.html') 
     
 def disponibilidad(request):
-    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Modulo/add' 
-    url_api = 'https://api-tareas-1.nicon607.repl.co/api/Disponibilidad/add' 
+    url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/Modulo/add' 
+    url_api = 'https://api-tareas-2.nicon607.repl.co/api/Disponibilidad/add' 
     
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
@@ -44,7 +44,7 @@ def disponibilidad(request):
             rut = rut_lista[0]
             print(rut)
             #obtener los valores maximos de las id, evitando que se repitan claves primarias
-            api = 'https://api-tareas-1.nicon607.repl.co/api/Modulo'
+            api = 'https://api-tareas-2.nicon607.repl.co/api/Modulo'
             response = requests.get(api)
             x = 0
             y = 0
@@ -58,7 +58,7 @@ def disponibilidad(request):
                     x = 0
             else:
                 x = 0
-            api_v2 = 'https://api-tareas-1.nicon607.repl.co/api/Disponibilidad'
+            api_v2 = 'https://api-tareas-2.nicon607.repl.co/api/Disponibilidad'
             response_v2 = requests.get(api_v2)
             if response_v2.status_code == 200:
                 dat = response_v2.json()
@@ -193,7 +193,7 @@ def CrearCuenta(request):
 
 def agenda(request):
     
-    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/DisponibilidadNico/' 
+    url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/DisponibilidadNico/' 
 
     response = requests.get(url_api_replit)
 
@@ -214,8 +214,8 @@ def CDPrueba(request):
 def agregaragenda(request):
 
     print("Estoy en agregargenda")
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Agenda/add'
-    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/a/Id' 
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Agenda/add'
+    url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/a/Id' 
 
     response = requests.get(url_api_replit)
 
@@ -269,7 +269,7 @@ def agregaragenda(request):
     return render(request,'aplicaciones/agregaragenda.html')
 def loginMedico(request):
     print("a")
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Medico/login'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Medico/login'
 
     print("Vista de inicio de sesión está siendo ejecutada")
 
@@ -332,7 +332,7 @@ def verPacientes(request):
 
         send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
         
-    url_api_replit = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
+    url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
 
     response = requests.get(url_api_replit)
 
@@ -352,7 +352,7 @@ def verPacientes(request):
 
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/add'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/add'
 
     print("Vista Crear")
 
@@ -393,7 +393,7 @@ def enviar_cliente_a_api(request):
 
 def login(request):
     print("a")
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Paciente/login'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/login'
 
     print("Vista de inicio de sesión está siendo ejecutada")
 
@@ -421,7 +421,7 @@ def login(request):
                 else:
                     print("Inicio de sesión correcto")
                     print("Respuesta de la API:", respuesta)
-                    return redirect('HoraMedica',{'disp': respuesta})
+                    return render(request, 'aplicaciones/HoraMedica.html', {'disp': response})
             else:
                 print("Credenciales inválidas")
         except Exception as ex:
@@ -429,7 +429,7 @@ def login(request):
     return render(request,'aplicaciones/InicioSesion.html')
 
 def getEspecialidades(request):
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Especialidad'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Especialidad'
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -442,7 +442,7 @@ def getEspecialidades(request):
     
 
 def getMedicos(request):
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Medico'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Medico'
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -459,7 +459,7 @@ def getMedicos(request):
 
 
 def getCentros(request):
-    api_url = 'https://api-tareas-1.nicon607.repl.co/api/Centro'
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/Centro'
     response = requests.get(api_url)
     
     if response.status_code == 200:
@@ -473,7 +473,7 @@ def HoraDisponible(request):
     try:
         if request.method == 'POST':
             rut_medico = request.POST.get('medico')
-            api_url = 'https://api-tareas-1.nicon607.repl.co/api/DisponibilidadNico/a'
+            api_url = 'https://api-tareas-2.nicon607.repl.co/api/DisponibilidadNico/a'
             response = requests.post(api_url, json={'rut_medico': rut_medico})
 
             if response.status_code == 200:
