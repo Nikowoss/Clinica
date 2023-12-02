@@ -1,0 +1,33 @@
+<!-- En el HTML de la otra página -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerHoraMedica</title>
+</head>
+<body>
+    <h2>Datos Seleccionados</h2>
+    {% for item in disp %}
+    <p>Nombre del Paciente: {{item.nomPaciente }}</p>
+    <p>Rut del Paciente: {{item.rutPaciente }}</p>
+    {% endfor %}
+    <p>Fecha: <span id="fecha"></span></p>
+    <p>Hora de Inicio: <span id="horaInicio"></span></p>
+    <p>Hora Final: <span id="horaFinal"></span></p>
+    <p>(Boton Aceptar Hora Medica)</p>
+
+    <script>
+        // Recupera los datos almacenados en sessionStorage
+        var fecha = sessionStorage.getItem('fecha');
+        var horaInicio = sessionStorage.getItem('horaInicio');
+        var horaFinal = sessionStorage.getItem('horaFinal');
+
+        // Muestra los datos en la página
+        document.getElementById('fecha').innerText = fecha;
+        document.getElementById('horaInicio').innerText = horaInicio;
+        document.getElementById('horaFinal').innerText = horaFinal;
+    </script>
+</body>
+</html>
