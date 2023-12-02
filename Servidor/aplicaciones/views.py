@@ -41,8 +41,9 @@ def disponibilidad(request):
             #obtener el rut del medico de la lista en el excel
             rut_lista = df['Rut Medico'].values.tolist()
             
-            rut = rut_lista[0]
+            rut = rut_lista[0] # devuelve str
             print(rut)
+            print(len(rut))
             #obtener los valores maximos de las id, evitando que se repitan claves primarias
             api = 'https://api-tareas-2.nicon607.repl.co/api/Modulo'
             response = requests.get(api)
@@ -77,79 +78,79 @@ def disponibilidad(request):
             #obtener al medico para verificar que este exista
             api_med = 'https://api-tareas-2.nicon607.repl.co/api/Medico'
             response_med = requests.get(api_med)
+            rut_med_C = ""
             if response_med.status_code == 200:
                 dat_med = response_med.json()
                 rut_med_bd = [medicos['rutmedico'] for medicos in dat_med]
                 print(rut_med_bd)
-                for r in rut_med_bd:
-                    if r == rut:
-                        rut_med_C = r
-                    else:
-                        rut_med_C = 0
-            """ if rut_med_C == rut : """
+            if rut_lista[0] in rut_med_bd:
+                rut_med_C = rut_lista[0]
+                print(len(rut_med_C))
+                print(rut_med_C)
+                print("los ruts coinciden")
             #recorrer la matriz y mandar datos al replit
-            for lista in filas_lista:
-                x = x + 1
-                print(x , y )
-                lista_def = []
-                #print(lista)
-                #print(x)
-                lista_def.append(x)
-                lista_def.append(str(lista[2]))
-                lista_def.append(str(lista[3]))
-                
-                #print(lista_def)
-                #tabla modulo
-                modulo_data = {
-                    "idmodulo" : x,
-                    "horaInicio" : str(lista[2]),
-                    "horaFinal" : str(lista[3])
-                }
-                #tabla disponibilidad
-                dispo_data = {
-                    "id_disponibilidad" : y,
-                    "modulo_idmodulo" : x,
-                    "fechaDispon" : str(lista[1]),
-                    "disponible" : str(lista[0]),
-                    "rut_medico" : rut
-                    }
- 
-                # Convertir la lista de diccionarios a JSON
-                lista_def_json = json.dumps(modulo_data)
-                dispo_json = json.dumps(dispo_data)
+                for lista in filas_lista:
+                    x = x + 1
+                    
+                    lista_def = [] 
+                    #print(lista)
+                    #print(x)
+                    lista_def.append(x)
+                    lista_def.append(str(lista[2]))
+                    lista_def.append(str(lista[3]))
+                    
+                    #print(lista_def)
+                    #tabla modulo
+                    modulo_data = {
+                        "idmodulo" : x,
+                        "horaInicio" : str(lista[2]),
+                        "horaFinal" : str(lista[3])
+                    } 
+                    #tabla disponibilidad
+                    dispo_data = {
+                        "id_disponibilidad" : y,
+                        "modulo_idmodulo" : x,
+                        "fechaDispon" : str(lista[1]),
+                        "disponible" : str(lista[0]),
+                        "rut_medico" : rut
+                        }
+    
+                    # Convertir la lista de diccionarios a JSON
+                    lista_def_json = json.dumps(modulo_data)
+                    dispo_json = json.dumps(dispo_data)
 
-                # Enviar lista_def_json a la API
-                api_response = requests.post(url_api_replit, data=lista_def_json, headers={'Content-Type': 'application/json'})
-                # enviar dispo_json a la API
-                api_res = requests.post(url_api, data=dispo_json, headers={'Content-Type': 'application/json'})
-                #desde que se agrego el rut_medico se marca error con la API, puede ser que no lo recibe bien la api
-                # por tipo de dato, o que no se envia bien a la BD (sirve borrar la columna y volverla a crear) 
-                
-                print("Respuesta API Modulo:", api_response.status_code)
-                print("Respuesta API Disponibilidad:", api_res.status_code)
+                    # Enviar lista_def_json a la API
+                    api_response = requests.post(url_api_replit, data=lista_def_json, headers={'Content-Type': 'application/json'})
+                    # enviar dispo_json a la API
+                    api_res = requests.post(url_api, data=dispo_json, headers={'Content-Type': 'application/json'})
+                    #desde que se agrego el rut_medico se marca error con la API, puede ser que no lo recibe bien la api
+                    # por tipo de dato, o que no se envia bien a la BD (sirve borrar la columna y volverla a crear) 
+                    
+                    print("Respuesta API Modulo:", api_response.status_code)
+                    print("Respuesta API Disponibilidad:", api_res.status_code)
 
-                if api_res.status_code == 200:
-                    print(api_res.status_code)
-                else:
-                    print(api_res.status_code)
-                    print("respuesta de disponibilidad mala")
+                    if api_res.status_code == 200:
+                        print(api_res.status_code)
+                    else:
+                        print(api_res.status_code)
+                        print("respuesta de disponibilidad mala")
+                    if api_response.status_code == 200:
+                        print(api_response.status_code)
+                    else:
+                        print(api_response.status_code)
+                        print("respuesta de modulo mala")
+                    
+                # Convierte el DataFrame en una tabla HTML
                 if api_response.status_code == 200:
-                    print(api_response.status_code)
+                    return render(request, 'aplicaciones/resultado.html', {'data': df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)})
                 else:
-                    print(api_response.status_code)
-                    print("respuesta de modulo mala")
-                
-            # Convierte el DataFrame en una tabla HTML
-            if api_response.status_code == 200:
-                return render(request, 'aplicaciones/resultado.html', {'data': df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)})
-            else:
-                messages.warning(request, f"Error al enviar datos a la API. Código de estado: {api_response.status_code}")
-            tabla_html = df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)
+                    messages.warning(request, f"Error al enviar datos a la API. Código de estado: {api_response.status_code}")
+                tabla_html = df_mostrar.to_html(classes='table table-bordered', escape=False, index=False)
 
-            return render(request, 'aplicaciones/resultado.html', {'data': tabla_html, 'filas_lista': filas_lista})
-            """ else:
+                return render(request, 'aplicaciones/resultado.html', {'data': tabla_html, 'filas_lista': filas_lista})
+            else:
                 print("rut no valido")
-                return render(request, 'aplicaciones/error.html', {'error_message': 'El rut ingresado en el excel no esta registrado .'}) """
+                return render(request, 'aplicaciones/error.html', {'error_message': 'El rut ingresado en el excel no esta registrado .'})
         else:
             return render(request, 'aplicaciones/error.html', {'error_message': 'El archivo no es un archivo Excel válido.'})
     return render(request, 'aplicaciones/disponibilidad.html')
