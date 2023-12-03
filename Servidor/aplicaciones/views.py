@@ -91,8 +91,9 @@ def disponibilidad(request):
             #recorrer la matriz y mandar datos al replit
                 for lista in filas_lista:
                     x = x + 1
+                    y = y + 1
                     
-                    lista_def = [] 
+                    lista_def = []  
                     #print(lista)
                     #print(x)
                     lista_def.append(x)
@@ -123,8 +124,7 @@ def disponibilidad(request):
                     api_response = requests.post(url_api_replit, data=lista_def_json, headers={'Content-Type': 'application/json'})
                     # enviar dispo_json a la API
                     api_res = requests.post(url_api, data=dispo_json, headers={'Content-Type': 'application/json'})
-                    #desde que se agrego el rut_medico se marca error con la API, puede ser que no lo recibe bien la api
-                    # por tipo de dato, o que no se envia bien a la BD (sirve borrar la columna y volverla a crear) 
+                    #arreglar logica para ingresar la disponibilidad y el modulo, cual va primero
                     
                     print("Respuesta API Modulo:", api_response.status_code)
                     print("Respuesta API Disponibilidad:", api_res.status_code)
@@ -154,7 +154,6 @@ def disponibilidad(request):
         else:
             return render(request, 'aplicaciones/error.html', {'error_message': 'El archivo no es un archivo Excel válido.'})
     return render(request, 'aplicaciones/disponibilidad.html')
-
 
 def enviar_correo(request):
     if request.method == 'POST':
@@ -373,7 +372,7 @@ def verPacientes(request):
 def enviar_cliente_a_api(request):
     print("Estoy en crear")
     api_url = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/add'
-
+    
     print("Vista Crear")
 
     if request.method == 'POST':
@@ -502,11 +501,95 @@ def getCentros(request):
         return nombres_centros
     else:
         return []
+    
 def VerHoraMedica(request):
     disp = request.session.get('disp', {})
-    
+    api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedica/add'
+    url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/a/Id' 
+
+    response = requests.get(url_api_replit)
+
+    if response.status_code == 200:
+        data = response.json()
+        json_data = json.dumps(data)
+        parsed_data = json.loads(json_data)
+        idhoramedica = parsed_data[0]['idhoramedica']
+        idhoramedicarial = idhoramedica+1
+        
+        if request.method == 'POST':
+            idhoramedica = idhoramedicarial
+            id_disponibilidad = request.POST.get("disponibilidad")
+            paciente_rutpaciente = disp[0]['rutPaciente']
+            estadoHora = True
+            print(paciente_rutpaciente)
+            Horadata = {
+                "idhoramedica" : idhoramedica,
+                "id_disponibilidad" : id_disponibilidad,
+                "paciente_rutpaciente" :paciente_rutpaciente,
+                "estadoHora" : estadoHora}
+            print("Datos de la HoraMedica:", Horadata)
+
+            data_json = json.dumps(Horadata)
+
+            headers = {'Content-Type' : 'application/json'}
+
+            try:
+                response = requests.post(api_url, data=data_json, headers=headers)
+                print(response)
+                print("Estado de la respuesta:", response.status_code)
+                if response.status_code == 200:
+                    respuesta = response.json()
+                        
+                    if respuesta.get("message") :
+                        messages.warning(request, "Error al agendar")
+                    else:
+                        noDisponible = "NODISPONIBLE"  
+                        data_to_update = {'disponible': noDisponible}  
+                        result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                        print(result)
+                        print("AgendaCreada")
+                        print("Respuesta de la API:", respuesta)
+                        return redirect('perfil')
+                else:
+                    print("Ingresa bien las was po oeeeee ")
+            except Exception as ex:
+                print("Error en :", ex)
     return render(request,'aplicaciones/VerHoraMedica.html', {'disp': disp})
 
+def perfil(request):
+    disp = request.session.get('disp', {})
+    try:
+        if request.method == 'POST':
+            paciente_rutpaciente = disp[0]['rutPaciente']
+            print(paciente_rutpaciente)
+            if paciente_rutpaciente :
+                api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedicaNico/a'
+                response = requests.post(api_url, json={'paciente_rutpaciente': paciente_rutpaciente})
+                if response.status_code == 200:
+                    dato = response.json()
+                    return render(request, 'aplicaciones/HoraDisponible.html', {'dato': dato, 'disp': disp})
+                else:
+                    return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+    except Exception as ex:
+                print("Error en :", ex)
+    return render(request, 'aplicaciones/perfil.html', {'disp': disp})
+
+def actualizar_disponibilidad(id_disponibilidad, data_to_update):
+    api_url = f'https://api-tareas-2.nicon607.repl.co/api/Disponibilidad/update/{id_disponibilidad}'
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        response = requests.put(api_url, data=json.dumps(data_to_update), headers=headers)
+
+        if response.status_code == 200:
+            return {"msg": "Disponibilidad actualizada"}
+        elif response.status_code == 404:
+            return {"message": "No se encontró la disponibilidad para actualizar"}, 404
+        else:
+            return {"message": "Error en la actualización de disponibilidad"}, response.status_code
+    except Exception as ex:
+        return {"message": str(ex)}, 500
+    
 def HoraDisponible(request):
     try:
         if request.method == 'POST':
