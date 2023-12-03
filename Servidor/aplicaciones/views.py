@@ -218,10 +218,27 @@ def agenda(request):
 
     if response.status_code == 200:
         data = response.json()
-        
-        return render(request, 'aplicaciones/agenda.html', {'data': data})
+        if request.method == 'POST':
+            id_disponibilidad = request.POST.get('id_disponibilidad')
+            disponible = request.POST.get('disponible')
+            print(id_disponibilidad)
+            print(disponible    )
+            if disponible ==("Disponible"):
+                print(id_disponibilidad)
+                noDisponible = "NODISPONIBLE"  
+                data_to_update = {'disponible': noDisponible}
+                result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                print(result)
+                return redirect('agenda')
+            else:
+                noDisponible = "Disponible"  
+                data_to_update = {'disponible': noDisponible}
+                result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                print(result)
+                return redirect('agenda')
     else:
         return render(request, 'aplicaciones/error.html')
+    return render(request, 'aplicaciones/agenda.html', {'data': data})
 
 def CDPrueba(request):
     

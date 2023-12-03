@@ -25,6 +25,7 @@
         <th scope="col">Horario Entrada</th>
         <th scope="col">Horario Salida</th>
         <th scope="col">Disponibilidad</th>
+        <th scope="col">Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -35,6 +36,14 @@
         <td>{{dato.horaInicio }}</td>
         <td>{{dato.horaFinal }}</td>
         <td>{{dato.disponible}}</td>
+        <td>
+            <form method="post" class="anular-hora-form" action="{% url 'agenda' %}">
+                {% csrf_token %}
+                <input type="hidden" name="id_disponibilidad" id="id_disponibilidad" value="{{ dato.id_disponibilidad }}">
+                <input type="hidden" name="disponible" id="disponible" value="{{ dato.disponible }}">
+                <button type="submit" class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm anular-hora-btn">Anular Hora</button>
+            </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
