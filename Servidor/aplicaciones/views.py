@@ -506,6 +506,8 @@ def VerHoraMedica(request):
     disp = request.session.get('disp', {})
     api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedica/add'
     url_api_replit = 'https://api-tareas-2.nicon607.repl.co/api/a/Id' 
+    url_api_pac = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/'  # Reemplaza con la URL real
+
 
     response = requests.get(url_api_replit)
 
@@ -549,6 +551,35 @@ def VerHoraMedica(request):
                         print(result)
                         print("AgendaCreada")
                         print("Respuesta de la API:", respuesta)
+                        #obtener al paciente para obtener su correo a partir del rut
+                        api_pac = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/'
+                        response_pac = requests.get(api_pac)
+                        
+                        if response_pac.status_code == 200:
+                            dat_pac = response_pac.json()
+                            paciente_encontrado = None
+                        for paciente in dat_pac:
+                            if paciente.get('rutPaciente') == paciente_rutpaciente:
+                                paciente_encontrado = paciente
+                                break
+
+                        if paciente_encontrado:
+                            # Obtener el correo del paciente encontrado
+                            correo_paciente = paciente_encontrado.get('correo', '')
+                            print(f'Correo del paciente con RUT {paciente_rutpaciente}: {correo_paciente}')
+                        
+                        #modificar para que quede bonito el correo
+                        asunto = 'Hora medica'
+                        mensaje = ' Recuerde su hora medica'
+                        remitente = 'tu_correo@gmail.com'
+                        destinatario = {correo_paciente}
+
+                        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
+                        
+                        response = requests.get(url_api_pac)
+                        
+                        if response.status_code == 200:
+                            data = response.json()
                         return redirect('perfil')
                 else:
                     print("Ingresa bien las was po oeeeee ")
