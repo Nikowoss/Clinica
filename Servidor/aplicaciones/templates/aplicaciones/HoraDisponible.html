@@ -24,6 +24,7 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Hora</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Horario Entrada</th>
                     <th scope="col">Horario Salida</th>
@@ -33,13 +34,14 @@
             <tbody>
                 {% for item in dato %}
                 <tr>
+                    <td>{{item.id_disponibilidad}}</td>
                     <td>{{ item.fechaDispon }}</td>
                     <td>{{ item.horaInicio }}</td>
                     <td>{{ item.horaFinal }}</td>
                     <td>
                         <button class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm"
-                            data-fecha="{{ item.fechaDispon }}" data-hora-inicio="{{ item.horaInicio }}"
-                            data-hora-final="{{ item.horaFinal }}">Elegir</button>
+                            data-id-disponibilidad="{{ item.id_disponibilidad}}" data-fecha="{{ item.fechaDispon }}"
+                            data-hora-inicio="{{ item.horaInicio }}" data-hora-final="{{ item.horaFinal }}">Elegir</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -50,21 +52,20 @@
 
 </html>
 <script>
-    $(document).ready(function() {
-        $('.btn-elegir').on('click', function() {
+    $(document).ready(function () {
+        $('.btn-elegir').on('click', function () {
             var fecha = $(this).data('fecha');
             var horaInicio = $(this).data('hora-inicio');
             var horaFinal = $(this).data('hora-final');
-    
-            // Almacena los datos en sessionStorage
+            var disponibilidad = $(this).data('id-disponibilidad');
+            console.log(disponibilidad);
             sessionStorage.setItem('fecha', fecha);
             sessionStorage.setItem('horaInicio', horaInicio);
             sessionStorage.setItem('horaFinal', horaFinal);
-    
-            // Redirige a la otra página
-            window.location.href = 'VerHoraMedica';  // Cambia '/otra_pagina/' con la URL de la otra página
+            sessionStorage.setItem('disponibilidad', disponibilidad);
+            window.location.href = 'VerHoraMedica';  
         });
     });
-    </script>
-    
+</script>
+
 {% endblock %}
