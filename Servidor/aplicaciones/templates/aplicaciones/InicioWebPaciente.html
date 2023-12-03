@@ -49,9 +49,12 @@
                     Hora Médica</a>
             </div>
 
-            <div style="display: flex;">
-                <a style="margin-left: -100px; font-size: medium; text-decoration: none; background-color: darkblue; 
-                border-color: darkblue; color: white;" href="{% url 'perfil' %}" class="btn btn-primary">Perfil</a>
+            <div>
+                <form method="post" action="{% url 'InicioPaciente' %}">
+                {% csrf_token %}
+                <button type="submit"  class="btn btn-primary" style="margin-left: -100px; font-size: medium; text-decoration: none; background-color: darkblue; 
+                border-color: darkblue; color: white;">Perfil</button>
+                </form>
             </div>
         </nav>
     </header>

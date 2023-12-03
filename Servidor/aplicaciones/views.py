@@ -329,7 +329,43 @@ def loginMedico(request):
     return render(request,'aplicaciones/InicioMedico.html')
 
 def InicioPaciente(request):
-    return render(request,'aplicaciones/InicioWebPaciente.html')
+    disp = request.session.get('disp', {})
+    try:
+        if request.method == 'POST':
+            print("estoy en perfil")
+            paciente_rutpaciente = disp[0]['rutPaciente']
+            if paciente_rutpaciente :
+                api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedicaNico/a'
+                response = requests.post(api_url, json={'paciente_rutpaciente': paciente_rutpaciente})
+                if response.status_code == 200:
+                    dato = response.json()
+                    idhoramedica = request.POST.get('idhoramedica')
+                    id_disponibilidad = request.POST.get('id_disponibilidad')
+                    if id_disponibilidad:
+                        print(idhoramedica)
+                        print(id_disponibilidad)
+                        if request.method == 'POST':
+                            noDisponible = "NODISPONIBLE"  
+                            data_to_update = {'disponible': noDisponible}
+                            result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                            print(result)
+                             
+                            false = False
+                           
+                            
+                            data_to_update2 = {'estadoHora': false}  
+                            result2 = actualizar_HoraMedica(idhoramedica, data_to_update2)
+
+                           
+                            print(result2)
+
+                            return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
+                    return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
+                else:
+                    return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+    except Exception as ex:
+                print("Error en :", ex)
+    return render(request,'aplicaciones/InicioWebPaciente.html',{'disp': disp})
 
 
 def HoraDisponible(request):
@@ -541,7 +577,7 @@ def VerHoraMedica(request):
                         print(result)
                         print("AgendaCreada")
                         print("Respuesta de la API:", respuesta)
-                        return redirect('perfil')
+                        return redirect('')
                 else:
                     print("Ingresa bien las was po oeeeee ")
             except Exception as ex:
@@ -552,19 +588,44 @@ def perfil(request):
     disp = request.session.get('disp', {})
     try:
         if request.method == 'POST':
+            print("estoy en perfil")
             paciente_rutpaciente = disp[0]['rutPaciente']
-            print(paciente_rutpaciente)
             if paciente_rutpaciente :
                 api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedicaNico/a'
                 response = requests.post(api_url, json={'paciente_rutpaciente': paciente_rutpaciente})
                 if response.status_code == 200:
                     dato = response.json()
-                    return render(request, 'aplicaciones/HoraDisponible.html', {'dato': dato, 'disp': disp})
+                    idhoramedica = request.POST.get('idhoramedica')
+                    id_disponibilidad = request.POST.get('id_disponibilidad')
+                    if id_disponibilidad:
+                        print(idhoramedica)
+                        print(id_disponibilidad)
+                        if request.method == 'POST':
+                            noDisponible = "NODISPONIBLE"  
+                            data_to_update = {'disponible': noDisponible}
+                            result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                            print(result)
+                             
+                            false = False
+                           
+                            
+                            data_to_update2 = {'estadoHora': false}  
+                            result2 = actualizar_HoraMedica(idhoramedica, data_to_update2)
+
+                           
+                            print(result2)
+
+                            return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
+                    return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
                 else:
                     return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
     except Exception as ex:
                 print("Error en :", ex)
+
     return render(request, 'aplicaciones/perfil.html', {'disp': disp})
+
+def cambiarEstadoHM(request):
+    return render(request, 'aplicaciones/cambiarEstadoHM,html')
 
 def actualizar_disponibilidad(id_disponibilidad, data_to_update):
     api_url = f'https://api-tareas-2.nicon607.repl.co/api/Disponibilidad/update/{id_disponibilidad}'
@@ -579,6 +640,22 @@ def actualizar_disponibilidad(id_disponibilidad, data_to_update):
             return {"message": "No se encontró la disponibilidad para actualizar"}, 404
         else:
             return {"message": "Error en la actualización de disponibilidad"}, response.status_code
+    except Exception as ex:
+        return {"message": str(ex)}, 500
+    
+def actualizar_HoraMedica(idhoramedica, data_to_update2):
+    api_url = f'https://api-tareas-2.nicon607.repl.co/api/HoraMedica/update/{idhoramedica}'
+    headers = {'Content-Type': 'application/json'}
+
+    try:
+        response = requests.put(api_url, data=json.dumps(data_to_update2), headers=headers)
+
+        if response.status_code == 200:
+            return {"msg": "Horamedica actualizada"}
+        elif response.status_code == 404:
+            return {"message": "No se encontró la Horamedica para actualizar"}, 404
+        else:
+            return {"message": "Error en la Hormademica"}, response.status_code
     except Exception as ex:
         return {"message": str(ex)}, 500
     

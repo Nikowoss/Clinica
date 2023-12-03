@@ -16,59 +16,47 @@
 </head>
 
 <body>
-    <h2>Tus horas medicas</h2>
+    {% for item in disp %}
+    <h2>Tus horas medicas {{item.nomPaciente}}</h2>
+    {% endfor %}
     <form method="post">
         {% csrf_token %}
-    <input type="hidden" id="id_disponibilidad" name="disponibilidad" value="{{ disponibilidad }}">
-    <p><span id="disponibilidad"></span></p>
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Nombre del Paciente</th>
-                <th scope="col">Rut del Paciente</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Horario Inicio</th>
                 <th scope="col">Horario Salida</th>
+                <th scope="col">Rut de tu medico</th>
+                <th scope="col">Nombre del medico</th>
+                <th scope="col">Especialidad</th>
                 <th scope="col">Accion</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in disp %}
+            {% for item in dato %}
             <tr>
-                <td>{{ item.nomPaciente }} {{ item.apePaciente }}</td>
-                <td>{{ item.rutPaciente }}</td>
+                <td>{{ item.fechaDispon }} </td>
+                <td>{{ item.horaInicio }}</td>
+                <td>{{ item.horaFinal }}</td>
+                <td>{{ item.rut_medico }}</td>
+                <td>{{ item.nombremedico }}</td>
+                <td>{{ item.nomespecialidad }}</td>
+                <td>
+                    <form method="post" class="anular-hora-form" action="{% url 'perfil' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="id_disponibilidad" id="id_disponibilidad" value="{{ item.id_disponibilidad }}">
+                        <input type="hidden" name="idhoramedica" id="idhoramedica" value="{{ item.idhoramedica }}">
+                        <button type="submit" class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm anular-hora-btn">Anular Hora</button>
+                    </form>
+                </td>
                 {% endfor %}
-                <td>
-                    <p><span id="fecha"></span></p>
-                </td>
-                <td>
-                    <p><span id="horaInicio"></span></p>
-                </td>
-                <td>
-                    <p><span id="horaFinal"></span></p>
-                </td>
-                <td>
-                    <button type="submit" class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm">Aceptar</button>
-                </form>
-                </td>
             </tr>
         </tbody>
     </table>
-    <script>
-        // Recupera los datos almacenados en sessionStorage
-        var fecha = sessionStorage.getItem('fecha');
-        var horaInicio = sessionStorage.getItem('horaInicio');
-        var horaFinal = sessionStorage.getItem('horaFinal');
-        var disponibilidad = sessionStorage.getItem('disponibilidad');
-
-        // Muestra los datos en la página
-        document.getElementById('fecha').innerText = fecha;
-        document.getElementById('horaInicio').innerText = horaInicio;
-        document.getElementById('horaFinal').innerText = horaFinal;
-        document.getElementById('disponibilidad').innerText = disponibilidad;
-        document.getElementById('id_disponibilidad').value = disponibilidad;
-    </script>
 </body>
 
+
 </html>
+
 {% endblock %}
