@@ -34,14 +34,14 @@
             <tbody>
                 {% for item in dato %}
                 <tr>
-                    <td>{{item.id_disponibilidad}}</td>
+                    <td>{{ item.nombremedico }} {{ item.id_disponibilidad}}</td>
                     <td>{{ item.fechaDispon }}</td>
                     <td>{{ item.horaInicio }}</td>
                     <td>{{ item.horaFinal }}</td>
                     <td>
                         <button class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm"
                             data-id-disponibilidad="{{ item.id_disponibilidad}}" data-fecha="{{ item.fechaDispon }}"
-                            data-hora-inicio="{{ item.horaInicio }}" data-hora-final="{{ item.horaFinal }}">Elegir</button>
+                            data-hora-inicio="{{ item.horaInicio }}">Elegir</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -56,12 +56,10 @@
         $('.btn-elegir').on('click', function () {
             var fecha = $(this).data('fecha');
             var horaInicio = $(this).data('hora-inicio');
-            var horaFinal = $(this).data('hora-final');
             var disponibilidad = $(this).data('id-disponibilidad');
             console.log(disponibilidad);
             sessionStorage.setItem('fecha', fecha);
             sessionStorage.setItem('horaInicio', horaInicio);
-            sessionStorage.setItem('horaFinal', horaFinal);
             sessionStorage.setItem('disponibilidad', disponibilidad);
             window.location.href = 'VerHoraMedica';  
         });
