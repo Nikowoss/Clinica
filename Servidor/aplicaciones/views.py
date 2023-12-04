@@ -605,6 +605,31 @@ def VerHoraMedica(request):
                         print("AgendaCreada")
                         print("Respuesta de la API:", respuesta)
                         disp = request.session.get('disp', {})
+                        #obtener al paciente para obtener su correo a partir del rut
+                        api_pac = 'https://api-tareas-2.nicon607.repl.co/api/Paciente/'
+                        response_pac = requests.get(api_pac)
+                        
+                        if response_pac.status_code == 200:
+                            dat_pac = response_pac.json()
+                            paciente_encontrado = None
+                        for paciente in dat_pac:
+                            if paciente.get('rutPaciente') == paciente_rutpaciente:
+                                paciente_encontrado = paciente
+                                break
+
+                        if paciente_encontrado:
+                            # Obtener el correo del paciente encontrado
+                            correo_paciente = paciente_encontrado.get('correo', '')
+                            print(f'Correo del paciente con RUT {paciente_rutpaciente}: {correo_paciente}')
+                        
+                        #modificar para que quede bonito el correo
+                        asunto = 'Hora medica'
+                        mensaje = ' Recuerde su hora medica'
+                        remitente = 'tu_correo@gmail.com'
+                        destinatario = {correo_paciente}
+
+                        send_mail(asunto, mensaje, remitente, destinatario, fail_silently=False)
+                        
                         try:
                             if request.method == 'POST':
                                 print("estoy en perfil")
