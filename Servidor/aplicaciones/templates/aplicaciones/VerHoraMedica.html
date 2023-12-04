@@ -1,3 +1,4 @@
+
 {% load static %}
 
 
@@ -44,8 +45,8 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
-                    <input type="hidden" id="id_disponibilidad" name="disponibilidad" value="{{ disponibilidad }}">
-                    <p style="font-size: 16px;"><strong>a:</strong> <span id="disponibilidad"></span></p>
+                    <input type="hidden" id="disponibilidad" name="disponibilidad" value="{{ disponibilidad }}">
+                    <span id="disponibilidad" type:"hidden"></span></p>
                     {% for item in disp %}
                         <p style="font-size: 16px;"><strong>Nombre:</strong> {{ item.nomPaciente }} {{ item.apePaciente }}</p>
                         <p style="font-size: 16px;"><strong>Rut:</strong> {{ item.rutPaciente }}</p>
@@ -71,12 +72,14 @@
         var fecha = sessionStorage.getItem('fecha');
         var horaInicio = sessionStorage.getItem('horaInicio');
         var disponibilidad = sessionStorage.getItem('disponibilidad');
-
+        console.log(disponibilidad)
         // Muestra los datos en la página
         document.getElementById('fecha').innerText = fecha;
         document.getElementById('horaInicio').innerText = horaInicio;
         document.getElementById('disponibilidad').innerText = disponibilidad;
-        document.getElementById('id_disponibilidad').value = disponibilidad;
+        console.log(disponibilidad)
+        document.getElementById('disponibilidad').value = disponibilidad;
+        console.log(disponibilidad)
     </script>
 </body>
 

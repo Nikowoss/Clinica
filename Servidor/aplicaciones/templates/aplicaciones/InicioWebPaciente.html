@@ -26,35 +26,15 @@
 </head>
 
 <body>
-    <header style="height: 13vh; background-color: #e3f2fd;">
+    <header>
         <nav class="navbar">
-            <a href="{% url 'InicioPaciente'%}" class="" style="text-decoration: none;"><img
-                    src="{% static 'aplicaciones/img/icon-hospital.png' %}" height="80px" style=" font-size: x-large;"
-                    alt="Logo"></a>
-
-            <div style="display: flex ">
-                <h3 style="font-size: medium; text-decoration: none;color: darkblue;font-weight: bolder;">Teléfono</h3>
-                <h3><br><i style="margin-left: -60px; font-size: large; color: darkblue;" class="fa fa-phone"></i> 600
-                    600 600</h3>
-            </div>
-
-            <div style="display: flex;">
-                <a style="font-size: medium; text-decoration: none; justify-content: flex-start; background-color: navy; border-color: navy; color: white;"
-                    href="{% url 'InicioSesion' %}" class="btn btn-primary">Iniciar Sesion</a>
-            </div>
-
-            <div style="display: flex;">
-                <a style="margin-left: -100px; font-size: medium; text-decoration: none; background-color: darkblue; 
-                border-color: darkblue; color: white;" href="{% url 'HoraMedica' %}" class="btn btn-primary">Registrar
-                    Hora Médica</a>
-            </div>
-
-            <div>
-                <form method="post" action="{% url 'InicioPaciente' %}">
-                {% csrf_token %}
-                <button type="submit"  class="btn btn-primary" style="margin-left: -100px; font-size: medium; text-decoration: none; background-color: darkblue; 
-                border-color: darkblue; color: white;">Perfil</button>
-                </form>
+            <a href="{% url 'InicioPaciente'%}" id="inicio">
+                <img src="{% static 'aplicaciones/img/icon-hospital.png' %}" alt="Logo">
+            </a>
+            <div class="navbar">
+                <a href="{% url 'InicioSesion' %}" id="sesion">Iniciar Sesión</a>
+                <a href="{% url 'HoraMedica' %}" id="reserva">Reserva tu Hora</a>
+                <h3><i class="fa fa-phone phone"></i> 600 600 600</h3>
             </div>
         </nav>
     </header>
@@ -118,12 +98,59 @@
             </div>
         </div>
     </div>
-</body>
+
+
 
 <style>
+    header {
+        height: 11vh;
+        background-color: #e3f2fd;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        padding: 5px; 
+        border-radius: 5px;
+        margin-left: auto;
+    }
+
+    .navbar img {
+        height: 70px; 
+        margin-bottom: 20px;
+        font-size: x-large;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        font-size: medium; 
+        margin-right: 15px;
+        transition: color 0.3s ease;
+        color: #333;
+        margin-bottom: 20px;
+        margin-right: 30px;
+    }
+
+    .navbar a:hover {
+        color: #fff;
+    }
+
+    .phone {
+        color: darkblue;
+        font-size: medium;
+        text-decoration: none;
+        font-weight: bolder;
+        color: darkblue;
+        margin-bottom: 20px;
+
+    }
+
     footer {
-        position: absolute;
-        bottom: 5;
+        position: fixed;
+        bottom: 0;
         width: 100%;
         text-align: center;
         background-color: #e3f2fd;
@@ -131,15 +158,20 @@
         padding: 10px 0;
     }
 
-    .content {
-        flex: 5;
+    .navbar a#sesion:hover, .navbar a#reserva:hover {
+        color: #fff !important;
+    }
+
+    .navbar a#sesion, .navbar a#reserva {
+        color: darkblue;
+        font-weight: bolder;
+    }
+
+        .navbar a#sesion, .navbar a#reserva {
+        color: darkblue;
+        font-weight: bolder;
     }
 </style>
-<footer class="content" style="margin-top: 100px; text-align: center; justify-content: end; ">
-
-    Copyright © 2023 Clinica por 'LosCabros'
-
-</footer>
-
+</body>
 
 </html>

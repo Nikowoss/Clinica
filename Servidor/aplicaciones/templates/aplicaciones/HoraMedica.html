@@ -14,6 +14,8 @@
     <div class="d-flex justify-content-center align-items-center mh-100 ">
         <div class="p-5" style="width: 55rem; height: 30rem; border-radius: 50px; background-color: #87CEEB;">
             <h1 style="margin-bottom: 20px;">Busqueda Hora Medica</h1>
+            {{disp.correo}}
+            
             <br>
             <form method="post" action="{% url 'HoraDisponible' %}">
                 {% csrf_token %}

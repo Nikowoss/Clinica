@@ -17,17 +17,18 @@
     </nav>
 </head>
 <body>
-
-    <form method="post" action="{% url 'enviar_correo' %}">
-        {% csrf_token %}
-        <label for="asunto">Asunto:</label>
-        <input type="text" name="asunto" required><br>
-        <label for="destinatario">Destinatario:</label>
-        <input type="email" name="destinatario" required><br>
-        <label for="mensaje">Mensaje:</label>
-        <textarea name="mensaje" required></textarea><br>
-        <input type="submit" value="Enviar Correo">
-    </form>
+    <div style>
+        <form method="post" action="{% url 'enviar_correo' %}">
+            {% csrf_token %}
+            <label for="asunto">Asunto:</label>
+            <input type="text" name="asunto" required><br>
+            <label for="destinatario">Destinatario:</label>
+            <input type="email" name="destinatario" required><br>
+            <label for="mensaje">Mensaje:</label>
+            <textarea name="mensaje" required></textarea><br>
+            <input type="submit" value="Enviar Correo">
+        </form>
+    </div>
 </body>
 
 
