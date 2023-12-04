@@ -54,13 +54,13 @@
                     {% for hora in fecha_group.list %}
                         <button style="margin-right: 20px; font-size: 14px;" class="btn btn-primary btn-elegir"
                             data-id-disponibilidad="{{ hora.id_disponibilidad }}"
-                            data-fecha="{{ hora.fechaDispon }}" data-hora-inicio="{{ hora.horaInicio }}"
-                            data-hora-final="{{ hora.horaFinal }}">
+                            data-fecha="{{ hora.fechaDispon }}" data-hora-inicio="{{ hora.horaInicio }}">
                             {{ hora.horaInicio }}
                         </button>
                     {% endfor %}
                 </div>
             </div>
+            {% endfor %}
     </div>
 
 
@@ -71,12 +71,10 @@
         $('.btn-elegir').on('click', function () {
             var fecha = $(this).data('fecha');
             var horaInicio = $(this).data('hora-inicio');
-            var horaFinal = $(this).data('hora-final');
             var disponibilidad = $(this).data('id-disponibilidad');
             console.log(disponibilidad);
             sessionStorage.setItem('fecha', fecha);
             sessionStorage.setItem('horaInicio', horaInicio);
-            sessionStorage.setItem('horaFinal', horaFinal);
             sessionStorage.setItem('disponibilidad', disponibilidad);
             window.location.href = 'VerHoraMedica';
         });

@@ -594,7 +594,42 @@ def VerHoraMedica(request):
                         print(result)
                         print("AgendaCreada")
                         print("Respuesta de la API:", respuesta)
-                        return redirect('')
+                        disp = request.session.get('disp', {})
+                        try:
+                            if request.method == 'POST':
+                                print("estoy en perfil")
+                                paciente_rutpaciente = disp[0]['rutPaciente']
+                                if paciente_rutpaciente :
+                                    api_url = 'https://api-tareas-2.nicon607.repl.co/api/HoraMedicaNico/a'
+                                    response = requests.post(api_url, json={'paciente_rutpaciente': paciente_rutpaciente})
+                                    if response.status_code == 200:
+                                        dato = response.json()
+                                        idhoramedica = request.POST.get('idhoramedica')
+                                        id_disponibilidad = request.POST.get('id_disponibilidad')
+                                        if id_disponibilidad:
+                                            print(idhoramedica)
+                                            print(id_disponibilidad)
+                                            if request.method == 'POST':
+                                                noDisponible = "NODISPONIBLE"  
+                                                data_to_update = {'disponible': noDisponible}
+                                                result = actualizar_disponibilidad(id_disponibilidad, data_to_update)
+                                                print(result)
+                                                
+                                                false = False
+                                            
+                                                
+                                                data_to_update2 = {'estadoHora': false}  
+                                                result2 = actualizar_HoraMedica(idhoramedica, data_to_update2)
+
+                                            
+                                                print(result2)
+
+                                                return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
+                                        return render(request, 'aplicaciones/perfil.html', {'dato': dato, 'disp': disp})
+                                    else:
+                                        return render(request, 'aplicaciones/error.html', {'error_message': 'Error en la solicitud de disponibilidad'})
+                        except Exception as ex:
+                            print("Error en :", ex)
                 else:
                     print("Ingresa bien las was po oeeeee ")
             except Exception as ex:
