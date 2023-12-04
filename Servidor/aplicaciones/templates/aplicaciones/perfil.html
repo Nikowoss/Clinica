@@ -34,6 +34,7 @@
             <div class="navbar">
                 <a href="{% url 'InicioPaciente'%}" id="inicio">Inicio</a>
                 <a href="{% url 'HoraMedica' %}" id="reserva">Reserva tu Hora</a>
+                <a href="{% url 'perfil' %}" id="perfil">Perfil</a>
                 <a href="{% url 'InicioPaciente'%}" id="cerrar">Cerrar sesión</a>
                 <h3><i class="fa fa-phone phone"></i> 600 600 600</h3>
             </div>
@@ -43,7 +44,7 @@
     <br>
     <br>
 {% for item in disp %}
-<h2 style="color: Navy; font-weight: bolder;" >Tus horas medicas {{item.nomPaciente}}</h2>
+<h2 style="color: Navy; font-weight: bolder;" >{{item.nomPaciente}} aquí podrás ver tus horas medicas </h2>
 {% endfor %}
 <br>
 <br>
@@ -135,15 +136,14 @@
         padding: 10px 0;
     }
 
-    .navbar a#inicio:hover, .navbar a#reserva:hover, .navbar a#cerrar:hover {
+    .navbar a#inicio:hover, .navbar a#reserva:hover, .navbar a#cerrar:hover, .navbar a#perfil:hover {
         color: #fff !important;
     }
 
-    .navbar a#inicio, .navbar a#reserva, .navbar a#cerrar {
+    .navbar a#inicio, .navbar a#reserva, .navbar a#cerrar, .navbar a#perfil {
         color: darkblue;
         font-weight: bolder;
     }
-
 
 
     body {
