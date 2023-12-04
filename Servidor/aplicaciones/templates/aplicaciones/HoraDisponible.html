@@ -1,7 +1,4 @@
-{% extends 'aplicaciones/base.html' %}
 {% load static %}
-
-{% block contenido %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,59 +10,191 @@
     <title>Toma de Horas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 
 <body>
+    <header>
+        <nav class="navbar">
+            <a href="{% url 'InicioPaciente'%}" id="inicio">
+                <img src="{% static 'aplicaciones/img/icon-hospital.png' %}" alt="Logo">
+            </a>
+            <div class="navbar">
+                <a href="{% url 'InicioPaciente'%}" id="inicio">Inicio</a>
+                <a href="{% url 'HoraMedica' %}" id="reserva">Reserva tu Hora</a>
+                <a href="{% url 'perfil' %}" id="perfil">Perfil</a>
+                <a href="{% url 'InicioPaciente'%}" id="cerrar">Cerrar sesión</a>
+                <h3><i class="fa fa-phone phone"></i> 600 600 600</h3>
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
-        <h2>Disponibilidad del Médico</h2>
+        <h1 style="text-align: center; color: #0056b3;" class="mt-4">Agenda tu Hora  {{ item.nomEspecialidad }}</h1>
         {% for item in disp %}
-        <h1>{{item.nomPaciente }}</h1>
+            <div class="mt-4">
+                <h2 class="h4">Datos Paciente:</h2>
+                <p class="mb-1">Nombre paciente: {{ item.nomPaciente }} {{ item.apePaciente }}</p>
+                <p class="mb-1">Rut: {{ item.rutPaciente }} {{ item.nombremedico }}</p>
+            </div>
         {% endfor %}
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Hora</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Horario Entrada</th>
-                    <th scope="col">Horario Salida</th>
-                    <th scope="col">Accion</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in dato %}
-                <tr>
-                    <td>{{item.id_disponibilidad}}</td>
-                    <td>{{ item.fechaDispon }}</td>
-                    <td>{{ item.horaInicio }}</td>
-                    <td>{{ item.horaFinal }}</td>
-                    <td>
-                        <button class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm"
-                            data-id-disponibilidad="{{ item.id_disponibilidad}}" data-fecha="{{ item.fechaDispon }}"
-                            data-hora-inicio="{{ item.horaInicio }}" data-hora-final="{{ item.horaFinal }}">Elegir</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% regroup dato by fechaDispon as datos_por_fecha %}
+        {% for fecha_group in datos_por_fecha|dictsort:"grouper" %}
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 style="font-size: 20px;" class="card-title">{{ fecha_group.grouper }}</h5>
+                    <p style="font-weight: bolder;" class="card-subtitle">{{ fecha_group.list.0.nombremedico }}</p>
+                </div>
+                <div class="card-body d-flex flex-wrap">
+                    {% for hora in fecha_group.list %}
+                        <button style="margin-right: 20px; font-size: 14px;" class="btn btn-primary btn-elegir"
+                            data-id-disponibilidad="{{ hora.id_disponibilidad }}"
+                            data-fecha="{{ hora.fechaDispon }}" data-hora-inicio="{{ hora.horaInicio }}">
+                            {{ hora.horaInicio }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
     </div>
+
+
 </body>
 
-</html>
 <script>
     $(document).ready(function () {
         $('.btn-elegir').on('click', function () {
             var fecha = $(this).data('fecha');
             var horaInicio = $(this).data('hora-inicio');
-            var horaFinal = $(this).data('hora-final');
             var disponibilidad = $(this).data('id-disponibilidad');
             console.log(disponibilidad);
             sessionStorage.setItem('fecha', fecha);
             sessionStorage.setItem('horaInicio', horaInicio);
-            sessionStorage.setItem('horaFinal', horaFinal);
             sessionStorage.setItem('disponibilidad', disponibilidad);
-            window.location.href = 'VerHoraMedica';  
+            window.location.href = 'VerHoraMedica';
         });
     });
 </script>
 
-{% endblock %}
+<style>
+    header {
+        height: 11vh;
+        background-color: #e3f2fd;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-radius: 5px;
+        margin-left: auto;
+    }
+
+    .navbar img {
+        height: 60px;
+        margin-bottom: 20px;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        font-size: medium;
+        transition: color 0.3s ease;
+        color: #333;
+        margin-bottom: 20px;
+        margin-right: 30px;
+    }
+
+    .navbar a:hover {
+        color: #fff;
+    }
+
+    .phone {
+        color: darkblue;
+        font-size: medium;
+        text-decoration: none;
+        font-weight: bolder;
+        color: darkblue;
+        margin-bottom: 20px;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #e3f2fd;
+        color: #333;
+        padding: 10px 0;
+    }
+
+    .navbar a#inicio:hover, .navbar a#reserva:hover, .navbar a#cerrar:hover, .navbar a#perfil:hover {
+        color: #fff !important;
+    }
+
+    .navbar a#inicio, .navbar a#reserva, .navbar a#cerrar, .navbar a#perfil {
+        color: darkblue;
+        font-weight: bolder;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        color: #333;
+    }
+
+    table {
+        background-color: #fff;
+    }
+
+    .btn-elegir {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-elegir:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    
+    .card {
+        border-radius: 15px;
+        overflow: hidden; 
+        margin-bottom: 20px; 
+    }
+
+    .card-header {
+        background-color: navy; 
+        color: #fff; 
+        padding: 10px; 
+        font-size: 18px;
+    }
+
+    .card-body {
+        background-color: #f8f9fa;
+        padding: 15px;
+        font-size: 20px;
+    }
+
+    .btn-elegir {
+        background-color: transparent;
+        border-color: #007bff;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        color: #007bff; 
+    }
+    
+    .btn-elegir:hover {
+        background-color: #007bff;
+        border-color: #0056b3;
+        color: #fff;
+    }
+
+</style>
+
+</html>

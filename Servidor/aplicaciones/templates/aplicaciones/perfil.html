@@ -1,7 +1,7 @@
-{% extends 'aplicaciones/base.html' %}
+
 {% load static %}
 
-{% block contenido %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,62 +13,164 @@
     <title>Toma de Horas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
+
+</head>
+
+
 <body>
-    <h2>Tus horas medicas</h2>
-    <form method="post">
-        {% csrf_token %}
-    <input type="hidden" id="id_disponibilidad" name="disponibilidad" value="{{ disponibilidad }}">
-    <p><span id="disponibilidad"></span></p>
+
+    <header>
+        <nav class="navbar">
+            <a href="{% url 'InicioPaciente'%}" id="inicio">
+                <img src="{% static 'aplicaciones/img/icon-hospital.png' %}" alt="Logo">
+            </a>
+            <div class="navbar">
+                <a href="{% url 'InicioPaciente'%}" id="inicio">Inicio</a>
+                <a href="{% url 'HoraMedica' %}" id="reserva">Reserva tu Hora</a>
+                <a href="{% url 'perfil' %}" id="perfil">Perfil</a>
+                <a href="{% url 'InicioPaciente'%}" id="cerrar">Cerrar sesión</a>
+                <h3><i class="fa fa-phone phone"></i> 600 600 600</h3>
+            </div>
+        </nav>
+    </header>
+
+    <br>
+    <br>
+{% for item in disp %}
+<h2 style="color: Navy; font-weight: bolder;" >{{item.nomPaciente}} aquí podrás ver tus horas medicas </h2>
+{% endfor %}
+<br>
+<br>
+<form method="post">
+    {% csrf_token %}
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Nombre del Paciente</th>
-                <th scope="col">Rut del Paciente</th>
                 <th scope="col">Fecha</th>
-                <th scope="col">Horario Inicio</th>
-                <th scope="col">Horario Salida</th>
-                <th scope="col">Accion</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Nombre del medico</th>
+                <th scope="col">Especialidad</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in disp %}
+            {% for item in dato %}
             <tr>
-                <td>{{ item.nomPaciente }} {{ item.apePaciente }}</td>
-                <td>{{ item.rutPaciente }}</td>
-                {% endfor %}
+                <td>{{ item.fechaDispon }} </td>
+                <td>{{ item.horaInicio }}</td>
+                <td>{{ item.nombremedico }}</td>
+                <td>{{ item.nomespecialidad }}</td>
                 <td>
-                    <p><span id="fecha"></span></p>
-                </td>
-                <td>
-                    <p><span id="horaInicio"></span></p>
-                </td>
-                <td>
-                    <p><span id="horaFinal"></span></p>
-                </td>
-                <td>
-                    <button type="submit" class="btn-elegir btn w-100 mt-4 fw-semibold shadow-sm">Aceptar</button>
-                </form>
+                    <form method="post" class="anular-hora-form" action="{% url 'perfil' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="id_disponibilidad" id="id_disponibilidad" value="{{ item.id_disponibilidad }}">
+                        <input type="hidden" name="idhoramedica" id="idhoramedica" value="{{ item.idhoramedica }}">
+                        <button type="submit" class="btn-anular-hora btn w-100 mt-4 fw-semibold shadow-sm">Anular Hora</button>
+                    </form>
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
-    <script>
-        // Recupera los datos almacenados en sessionStorage
-        var fecha = sessionStorage.getItem('fecha');
-        var horaInicio = sessionStorage.getItem('horaInicio');
-        var horaFinal = sessionStorage.getItem('horaFinal');
-        var disponibilidad = sessionStorage.getItem('disponibilidad');
-
-        // Muestra los datos en la página
-        document.getElementById('fecha').innerText = fecha;
-        document.getElementById('horaInicio').innerText = horaInicio;
-        document.getElementById('horaFinal').innerText = horaFinal;
-        document.getElementById('disponibilidad').innerText = disponibilidad;
-        document.getElementById('id_disponibilidad').value = disponibilidad;
-    </script>
+</form>
 </body>
 
+<style>
+    
+    header {
+        height: 11vh;
+        background-color: #e3f2fd;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-radius: 5px;
+        margin-left: auto;
+    }
+
+    .navbar img {
+        height: 60px;
+        margin-bottom: 20px;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        font-size: medium;
+        transition: color 0.3s ease;
+        color: #333;
+        margin-bottom: 20px;
+        margin-right: 30px;
+    }
+
+    .navbar a:hover {
+        color: #fff;
+    }
+
+    .phone {
+        color: darkblue;
+        font-size: medium;
+        text-decoration: none;
+        font-weight: bolder;
+        color: darkblue;
+        margin-bottom: 20px;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #e3f2fd;
+        color: #333;
+        padding: 10px 0;
+    }
+
+    .navbar a#inicio:hover, .navbar a#reserva:hover, .navbar a#cerrar:hover, .navbar a#perfil:hover {
+        color: #fff !important;
+    }
+
+    .navbar a#inicio, .navbar a#reserva, .navbar a#cerrar, .navbar a#perfil {
+        color: darkblue;
+        font-weight: bolder;
+    }
+
+
+    body {
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    table {
+        margin: 20px auto;
+        font-size: 18px; 
+    }
+
+    .btn-anular-hora {
+        background-color: navy;
+        border-color: navy;
+        color: white;
+    }
+
+    .btn-anular-hora:hover {
+        background-color: #001f3f;
+        border-color: #001f3f;
+        color: white;
+    }
+</style>
+
+
 </html>
-{% endblock %}
